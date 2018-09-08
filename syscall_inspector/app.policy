@@ -1,0 +1,128 @@
+# one line per syscall
+# {} indicates OR between list items
+# ALLOW whitelistes seccomp no matter policy level
+# TEST_ARGS does arg tests
+# [register]_[type], where PTR implies dereferencing
+# any match of the items inside {} is pass (OR)
+# ONLY_INIT only allows during init (syscall is not present in policy_map)
+# implicit deny
+# currently coded to switch to syscall and THEN test for policy-level
+
+# allow_list = ['poll', 'getpid', ...]
+
+ALLOW poll
+ALLOW getpid
+ALLOW write
+ALLOW epoll_ctl
+ALLOW recvfrom
+ALLOW epoll_wait
+ALLOW sendto
+ALLOW kill
+ALLOW read
+
+# init_trace = {'open': {'RDI_PTR': ['/opt/...']}, ...}
+A TRACE execve RDI_PTR
+A TRACE stat RDI_PTR
+A TRACE connect RDI_INT
+A TRACE socket RDI_INT
+
+A TRACE close
+A TRACE fstat
+A TRACE openat
+A TRACE lseek
+A TRACE rt_sigaction
+A TRACE mprotect
+A TRACE getdents
+A TRACE lstat
+A TRACE brk
+A TRACE access
+A TRACE fcntl
+A TRACE ioctl
+A TRACE futex
+A TRACE munmap
+A TRACE unlink
+A TRACE socketpair
+A TRACE pipe2
+A TRACE readlink
+A TRACE getegid
+A TRACE getgid
+A TRACE getuid
+A TRACE geteuid
+A TRACE statfs
+A TRACE setsockopt
+A TRACE sendmsg
+A TRACE clock_getres
+A TRACE getresuid
+A TRACE getresgid
+A TRACE getsockname
+A TRACE recvmsg
+A TRACE clone
+A TRACE set_tid_address
+A TRACE sigaltstack
+A TRACE sysinfo
+A TRACE epoll_create
+A TRACE getcwd
+A TRACE sched_setscheduler
+A TRACE sched_getparam
+A TRACE sched_getscheduler
+A TRACE vfork
+A TRACE getpeername
+A TRACE getsockopt
+A TRACE rt_sigprocmask
+A TRACE uname
+A TRACE arch_prctl
+A TRACE exit_group
+A TRACE wait4
+A TRACE getrandom
+A TRACE dup2
+A TRACE dup
+A TRACE prlimit64
+A TRACE set_robust_list
+A TRACE mmap
+A TRACE mkdir
+A TRACE exit
+A TRACE madvise
+A TRACE sigreturn
+
+# post_init_test = {'open': {'RDI_PTR': ['/opt/...']}, ...}
+0 TRACE open RDI_PTR
+1 TEST_ARGS open {
+    RDI_PTR:dirname|/opt/furnace/frontend/apps
+    RDI_PTR:dirname|/opt/furnace/frontend/apps/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6/lib-dynload
+    RDI_PTR:dirname|/usr/lib64/python3.6/json
+    RDI_PTR:dirname|/usr/lib64/python3.6/json/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6
+}
+
+1 TRACE stat
+1 TRACE socket
+1 TRACE sigaltstack
+1 TRACE rt_sigaction
+#1 TRACE open
+1 TRACE munmap
+1 TRACE mprotect
+1 TRACE madvise
+1 TRACE lseek
+1 TRACE getsockopt
+1 TRACE getpeername
+1 TRACE futex
+1 TRACE fstat
+1 TRACE fcntl
+1 TRACE exit_group
+1 TRACE exit
+1 TRACE connect
+1 TRACE close
+1 TRACE mmap
+1 TRACE brk
+
+# always_test = {'ioctl': {'RSI_INT': [1, 33]}, ...}
+A TEST_ARGS ioctl {
+    RSI_INT:module_termios.TCGETS
+    RSI_INT:module_termios.FIOCLEX
+}
+
+A TEST_ARGS socket {
+    RDI_INT:module_socket.AF_UNIX
+}

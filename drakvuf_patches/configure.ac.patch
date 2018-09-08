@@ -1,0 +1,29 @@
+*** drakvuf/configure.ac	2018-07-02 16:21:51.385500739 +0000
+--- configure.ac.w_furnace	2018-07-02 17:09:20.389598203 +0000
+***************
+*** 236,241 ****
+--- 236,251 ----
+    AC_DEFINE_UNQUOTED(ENABLE_PLUGIN_PROCMON, 1, "")
+  fi
+  
++ AC_ARG_ENABLE([plugin_furnace],
++   [AS_HELP_STRING([--disable-plugin-furnace],
++ 	[Enable furnace support @<:@yes@:>@])],
++   [plugin_furnace="$enableval"],
++   [plugin_furnace="yes"])
++ AM_CONDITIONAL([PLUGIN_FURNACE], [test x$plugin_furnace = xyes])
++ if test x$plugin_furnace = xyes; then
++   AC_DEFINE_UNQUOTED(ENABLE_PLUGIN_FURNACE, 1, "")
++ fi
++ 
+  #####################################################
+  
+  AC_ARG_ENABLE([hardening],
+***************
+*** 410,413 ****
+--- 420,424 ----
+  Socketmon:  $plugin_socketmon
+  Regmon:     $plugin_regmon
+  Procmon:    $plugin_procmon
++ Furnace:    $plugin_furnace
+  -------------------------------------------------------------------------------])

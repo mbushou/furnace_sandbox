@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module app</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>app</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/micah/mbushou%40ncsu.edu/P_furnace_sandbox/app_partition/app.py">/home/micah/mbushou@ncsu.edu/P_furnace_sandbox/app_partition/app.py</a></font></td></tr></table>
+    <p><tt>#-------------------------<br>
+#&nbsp;Furnace&nbsp;(c)&nbsp;2017-2018&nbsp;Micah&nbsp;Bushouse<br>
+#<br>
+#&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software:&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;the&nbsp;Free&nbsp;Software&nbsp;Foundation,&nbsp;either&nbsp;version&nbsp;3&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+#&nbsp;(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+#<br>
+#&nbsp;This&nbsp;program&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+#&nbsp;but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+#&nbsp;MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+#&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+#<br>
+#&nbsp;You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+#&nbsp;along&nbsp;with&nbsp;this&nbsp;program.&nbsp;&nbsp;If&nbsp;not,&nbsp;see&nbsp;&lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.<br>
+#-------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="furnace_frontend.html">furnace_frontend</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="app.html#App">App</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="App">class <strong>App</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="App-__init__"><strong>__init__</strong></a>(self, ctx)</dt><dd><tt>Tenant's&nbsp;app&nbsp;constructor<br>
+:param&nbsp;ctx:&nbsp;A&nbsp;dict,&nbsp;{'uuid':&nbsp;[Furnace-assigned&nbsp;app&nbsp;UUID],&nbsp;'md':&nbsp;[optional&nbsp;femain.py&nbsp;supplied&nbsp;metadata]}.</tt></dd></dl>
+
+<dl><dt><a name="App-be_callback"><strong>be_callback</strong></a>(self, ctx)</dt><dd><tt>Called&nbsp;when&nbsp;messages&nbsp;arrive&nbsp;from&nbsp;the&nbsp;backend<br>
+:param&nbsp;ctx:&nbsp;a&nbsp;ctx&nbsp;named&nbsp;tuple&nbsp;collections.namedtuple('MessageContent',&nbsp;'type&nbsp;message')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;(string)&nbsp;This&nbsp;message&nbsp;was&nbsp;'broadcast'&nbsp;to&nbsp;all&nbsp;apps&nbsp;or&nbsp;'notify'&nbsp;to&nbsp;this&nbsp;app&nbsp;individually.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;(string):&nbsp;Contents&nbsp;of&nbsp;message.<br>
+:returns:&nbsp;a&nbsp;string&nbsp;reply&nbsp;to&nbsp;send&nbsp;back&nbsp;to&nbsp;the&nbsp;backend</tt></dd></dl>
+
+<dl><dt><a name="App-timer_callback"><strong>timer_callback</strong></a>(self, ctx)</dt><dd><tt>Called&nbsp;on&nbsp;timer&nbsp;timeouts<br>
+:param&nbsp;ctx:&nbsp;Presently&nbsp;unused,&nbsp;passes&nbsp;as&nbsp;a&nbsp;static&nbsp;"timer&nbsp;triggered"&nbsp;string<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

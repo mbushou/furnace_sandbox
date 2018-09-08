@@ -1,0 +1,308 @@
+# -------------------------
+# Furnace (c) 2017-2018 Micah Bushouse
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# -------------------------
+
+FURNACE_DIR=/opt/furnace
+SANDBOX_DIR=$FURNACE_DIR/furnace_sandbox
+PROXY_DIR=$FURNACE_DIR/furnace_proxy
+APP_STORAGE_DIR=$FURNACE_DIR/app_storage
+APP_FILESYSTEM_DIR=$FURNACE_DIR/app_filesystem
+VMI_FILESYSTEM_DIR=$FURNACE_DIR/vmi_filesystem
+DRAKVUF_DIR=$FURNACE_DIR/drakvuf
+MOCK_DIR=$SANDBOX_DIR/vmi_partition_mock
+
+# --- APP functions
+# put this in AS when profiling using strace
+#            --bind $FURNACE_DIR/f_var /tmp \
+reset_app () {
+    echo "RESETTING APP VARS"
+BV="        bash"
+AS="cgrm app_cgroup;
+    cgmk app_cgroup;
+    sudo cgexec -g cpu,pids,memory:app_cgroup \
+        sudo -u furnace \
+            env -i PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/opt/furnace/frontend \
+                   SHELL=/bin/bash \
+                   HOME=/home/furnace \
+                   USERNAME=furnace \
+                   LANG=en_US.UTF-8 \
+                   LC_CTYPE=en_US.UTF-8 \
+                   HOSTNAME=furnace.sandbox \
+            /usr/bin/bwrap \
+            --ro-bind $APP_FILESYSTEM_DIR / \
+            --ro-bind $SANDBOX_DIR/site /opt/furnace/venv \
+            --ro-bind $SANDBOX_DIR/app_partition /opt/furnace/frontend \
+            --ro-bind $SANDBOX_DIR/shared /opt/furnace/shared \
+            --ro-bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.py /opt/furnace/app/app.py \
+            --bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/fac_socket /opt/furnace/fac_socket \
+            --bind $APP_STORAGE_DIR/tenant_data/22222222-2222-2222-2222-222222222222-vmi/vmi_socket /opt/furnace/vmi_socket \
+            --dev-bind /dev/urandom /dev/urandom \
+            --dev-bind /dev/null /dev/null \
+            --unshare-user --uid 1000 --gid 1000 --unshare-pid --unshare-uts "
+PA="        /opt/furnace/shared/bin/app_inspector \
+                /opt/furnace/venv/bin/python3 -EOO \
+                    /opt/furnace/frontend/femain.py -c app -m App \
+                        --u2 11111111-1111-1111-1111-111111111111-app --fac /opt/furnace/fac_socket \
+                        --vmi /opt/furnace/vmi_socket "
+NA="        /opt/furnace/venv/bin/python3 -EOO \
+                /opt/furnace/frontend/femain.py -dc app -m App \
+                    --u2 11111111-1111-1111-1111-111111111111-app --fac /opt/furnace/fac_socket \
+                    --vmi /opt/furnace/vmi_socket "
+}
+sed_app () {
+    reset_app
+    echo "RUNNING SED ON APP VARS"
+    AS=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $AS)
+    AS=$(sed "s/22222222-2222-2222-2222-222222222222-vmi/$2/g" <<< $AS)
+    AS=$(sed "s/app_cgroup/app_cgroup_$1/g" <<< $AS)
+}
+papp () {
+    if ! [[ $# -eq 3 || $# -eq 4 ]]; then
+        echo "usage: papp UUID-app UUID-vmi metadata"
+        return
+    fi
+    sed_app $1 $2
+    PA=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $PA)
+    MD="--md $3"
+    if [[ -n $4 ]]; then
+        echo "copying in app from $4"
+        sudo cp $4 $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.py
+        sudo chown furnace:furnace $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.py
+    fi
+    echo $AS; echo $PA; echo $1; echo $2; echo $3; echo $4; eval $AS$PA$MD;
+}
+app () {
+    if ! [[ $# -eq 3 || $# -eq 4 ]]; then
+        echo "usage: app UUID-app UUID-vmi metadata"
+        return
+    fi
+    sed_app $1 $2
+    NA=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $NA)
+    MD="--md $3"
+    if [[ -n $4 ]]; then
+        echo "copying in app from $4"
+        sudo cp $4 $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.py
+        sudo chown furnace:furnace $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.py
+    fi
+    echo $AS; echo $NA; echo $1; echo $2; echo $3; echo $4; eval $AS$NA$MD;
+}
+bapp () {
+    sed_app 11111111-1111-1111-1111-111111111111-app 22222222-2222-2222-2222-222222222222-vmi
+    echo $AS; echo $BV; eval $AS$BV;
+}
+
+
+#            --ro-bind /opt/kernels /opt/kernels \
+#            --bind $FURNACE_DIR/tmp /tmp \
+# --- VMI functions
+reset_vmi () {
+    echo "RESETTING VMI VARS"
+BV="        bash"
+VS="cgrm vmi_cgroup;
+    cgmk vmi_cgroup;
+    sudo cgset -r memory.limit_in_bytes=64000000 vmi_cgroup;
+    sudo cgexec -g cpu,pids,memory:vmi_cgroup \
+        env -i PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin \
+               SHELL=/bin/bash \
+               HOME=/home/furnace \
+               USERNAME=furnace \
+               LANG=en_US.UTF-8 \
+               LC_CTYPE=en_US.UTF-8 \
+               HOSTNAME=furnace.sandbox \
+        sudo /usr/bin/bwrap \
+            --ro-bind $VMI_FILESYSTEM_DIR / \
+            --dev-bind /dev/xen /dev/xen \
+            --ro-bind $APP_STORAGE_DIR/tenant_data/22222222-2222-2222-2222-222222222222-vmi/rekall.json /opt/kernels/rekall/rekall.json \
+            --ro-bind $SANDBOX_DIR/shared /opt/furnace/shared \
+            --ro-bind $DRAKVUF_DIR /opt/furnace/vmi \
+            --bind $APP_STORAGE_DIR/tenant_data/22222222-2222-2222-2222-222222222222-vmi/vmi_socket /opt/furnace/vmi_socket \
+            --unshare-pid --unshare-net --unshare-uts --unshare-ipc --uid 0 --gid 0 "
+NV="        /opt/furnace/vmi/src/drakvuf -r /opt/kernels/rekall/rekall.json \
+                -x socketmon -x cpuidmon -x debugmon -x exmon -x filedelete -x filetracer \
+                -x objmon -x poolmon -x ssdtmon -x regmon -x syscalls -v -d fg25-1"
+PV="        /opt/furnace/shared/bin/drakvuf_inspector $NV"
+NVM="        /opt/furnace/vmi/vmi_runtime fg25-1"
+PVM="        /opt/furnace/shared/bin/drakvuf_inspector $NVM"
+}
+sed_vmi () {
+    reset_vmi
+    echo "RUNNING SED ON VMI VARS"
+    VS=$(sed "s/vmi_cgroup/vmi_cgroup_$2/g" <<< $VS)
+    VS=$(sed "s/22222222-2222-2222-2222-222222222222-vmi/$2/g" <<< $VS)
+}
+# DRAKVUF drivers
+pvmi () {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: pvmi vm-name UUID-vmi"
+        return
+    fi
+    sed_vmi $1 $2
+    PV=$(sed "s/fg25-1/$1/g" <<< $PV)
+    echo $VS; echo $PV; echo $1; echo $2; eval $VS$PV;
+}
+vmi () {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: vmi vm-name UUID-vmi"
+        return
+    fi
+    sed_vmi $1 $2
+    NV=$(sed "s/fg25-1/$1/g" <<< $NV)
+    echo $VS; echo $NV; echo $1; echo $2; eval $VS$NV;
+}
+bvmi () {
+    sed_vmi $1 $2
+    echo $VS; echo $BV; eval $VS$BV;
+}
+# mock drivers
+pmvmi () {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: pmvmi vm-name UUID-vmi"
+        return
+    fi
+    sed_vmi $1 $2
+    VS=$(sed "s,$DRAKVUF_DIR,$MOCK_DIR/bin,g" <<< $VS)
+    VS=$(sed "s,--dev-bind /dev/xen /dev/xen,,g" <<< $VS)
+    PVM=$(sed "s/fg25-1/$1/g" <<< $PVM)
+    echo $VS; echo $PVM; echo $1; echo $2; eval $VS$PVM;
+}
+mvmi () {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: mvmi vm-name UUID-vmi"
+        return
+    fi
+    sed_vmi $1 $2
+    VS=$(sed "s,$DRAKVUF_DIR,$MOCK_DIR/bin,g" <<< $VS)
+    VS=$(sed "s,--dev-bind /dev/xen /dev/xen,,g" <<< $VS)
+    NVM=$(sed "s/fg25-1/$1/g" <<< $NVM)
+    echo $VS; echo $NVM; echo $1; echo $2; eval $VS$NVM;
+}
+bmvmi () {
+    sed_vmi $1 $2
+    VS=$(sed "s,$DRAKVUF_DIR,$MOCK_DIR/bin,g" <<< $VS)
+    VS=$(sed "s,--dev-bind /dev/xen /dev/xen,,g" <<< $VS)
+    echo $VS; echo $BV; eval $VS$BV;
+}
+
+
+# --- FAC functions
+reset_fac () {
+    echo "RESETTING FAC VARS"
+BV="        bash"
+FS="cgrm fac_cgroup;
+    cgmk fac_cgroup;
+    sudo cgexec -g cpu,pids,memory:fac_cgroup \
+        sudo -u furnace \
+            env -i PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin \
+                   SHELL=/bin/bash \
+                   HOME=/home/furnace \
+                   USERNAME=furnace \
+                   LANG=en_US.UTF-8 \
+                   LC_CTYPE=en_US.UTF-8 \
+                   HOSTNAME=furnace.sandbox \
+            /usr/bin/bwrap \
+            --ro-bind $APP_FILESYSTEM_DIR / \
+            --ro-bind $SANDBOX_DIR/site /opt/furnace/venv \
+            --ro-bind $SANDBOX_DIR/facilities_partition /opt/furnace/facilities \
+            --ro-bind $SANDBOX_DIR/shared /opt/furnace/shared \
+            --ro-bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.key /opt/furnace/keys/app.key \
+            --ro-bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/be.pub /opt/furnace/keys/be.pub \
+            --bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/storage /tmp \
+            --bind $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/fac_socket /opt/furnace/fac_socket \
+            --dev-bind /dev/urandom /dev/urandom \
+            --unshare-user --uid 1000 --gid 1000 --unshare-pid --unshare-uts "
+PF="        /opt/furnace/shared/bin/fac_inspector \
+                /opt/furnace/venv/bin/python3 -EOO \
+                    /opt/furnace/facilities/facilities.py --u2 11111111-1111-1111-1111-111111111111-app \
+                    --qt=_furnace_max_disk:64000000 --kp /opt/furnace/keys \
+                    --it 5561 --ip 127.0.0.1 --fac /opt/furnace/fac_socket"
+NF="        /opt/furnace/venv/bin/python3 -EOO \
+                /opt/furnace/facilities/facilities.py --u2 11111111-1111-1111-1111-111111111111-app \
+                --qt=_furnace_max_disk:64000000 --kp /opt/furnace/keys \
+                --it 5561 --ip 127.0.0.1 --fac /opt/furnace/fac_socket"
+}
+sed_fac () {
+    reset_fac
+    echo "RUNNING SED ON FAC VARS"
+    FS=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $FS)
+    FS=$(sed "s/fac_cgroup/fac_cgroup_$1/g" <<< $FS)
+}
+# EXAMPLE: pfac 11111111-1111-1111-1111-111111111111-app 127.0.0.1 5561
+pfac () {
+    if ! [[ $# -eq 3 ]]; then
+        echo "usage: pfac UUID-app proxy_ip proxy_port"
+        return
+    fi
+    sed_fac $1
+    PF=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $PF)
+    PF=$(sed "s/127.0.0.1/$2/g" <<< $PF)
+    PF=$(sed "s/5561/$3/g" <<< $PF)
+    echo $FS; echo $PF; echo $1; echo $2; echo $3; eval $FS$PF;
+}
+fac () {
+    if ! [[ $# -eq 3 ]]; then
+        echo "usage: fac UUID-app proxy_ip proxy_port"
+        return
+    fi
+    sed_fac $1
+    NF=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $NF)
+    NF=$(sed "s/127.0.0.1/$2/g" <<< $NF)
+    NF=$(sed "s/5561/$3/g" <<< $NF)
+    echo $FS; echo $NF; echo $1; echo $2; echo $3; eval $FS$NF;
+}
+bfac () {
+    sed_fac "11111111-1111-1111-1111-111111111111-app"
+    echo $FS; echo $BV;eval $FS$BV;
+}
+furnace_proxy () {
+    if ! [[ $# -eq 5 ]]; then
+        echo "usage: furnace_proxy UUID-app proxy_ip proxy_port backend_ip backend_port"
+        return
+    fi
+    PROXY_LINE="python3 $PROXY_DIR/proxy.py -d \
+        --ak $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/app.key \
+        --bk $APP_STORAGE_DIR/tenant_data/11111111-1111-1111-1111-111111111111-app/be.key \
+        --ip 127.0.0.1 \
+        --it 5561 \
+        --ep 127.0.0.2 \
+        --et 5563"
+    PROXY_LINE=$(sed "s/11111111-1111-1111-1111-111111111111-app/$1/g" <<< $PROXY_LINE)
+    PROXY_LINE=$(sed "s/127.0.0.1/$2/g" <<< $PROXY_LINE)
+    PROXY_LINE=$(sed "s/5561/$3/g" <<< $PROXY_LINE)
+    PROXY_LINE=$(sed "s/127.0.0.2/$4/g" <<< $PROXY_LINE)
+    PROXY_LINE=$(sed "s/5563/$5/g" <<< $PROXY_LINE)
+    echo $1; echo $2; echo $3; echo $4; echo $5; eval $PROXY_LINE;
+}
+
+# --- CGROUP functions
+cgmk () {
+    sudo cgcreate -g memory:/$1 -g cpu:/$1 -g pids:/$1
+    sudo cgset -r cpu.cfs_quota_us=200000 $1
+    sudo cgset -r cpu.cfs_period_us=100000 $1
+    sudo cgset -r pids.max=30 $1
+    sudo cgset -r memory.limit_in_bytes=300m $1
+}
+cgrm () {
+    sudo cgdelete -g memory:/$1 -g cpu:/$1 -g pids:/$1
+}
+cglist () {
+    cgget -r pids.max $1
+    cgget -r cpu.cfs_quota_us $1
+    cgget -r cpu.cfs_period_us $1
+    cgget -r memory.limit_in_bytes $1
+    cgget -r pids.current $1
+    cgget -r memory.usage_in_bytes $1
+}
+

@@ -1,0 +1,194 @@
+ALLOW poll
+ALLOW getpid
+ALLOW write
+ALLOW epoll_ctl
+ALLOW recvfrom
+ALLOW epoll_wait
+ALLOW sendto
+ALLOW kill
+ALLOW read
+ALLOW futex
+
+A TRACE execve RDI_PTR
+A TRACE stat RDI_PTR
+A TRACE connect RDI_INT
+A TRACE socket RDI_INT
+
+A TRACE close
+A TRACE fstat
+A TRACE openat
+A TRACE lseek
+A TRACE rt_sigaction
+A TRACE mprotect
+A TRACE getdents
+A TRACE lstat
+A TRACE brk
+A TRACE access
+A TRACE fcntl
+A TRACE ioctl
+A TRACE futex
+A TRACE munmap
+A TRACE unlink
+A TRACE socketpair
+A TRACE pipe2
+A TRACE readlink
+A TRACE getegid
+A TRACE getgid
+A TRACE getuid
+A TRACE geteuid
+A TRACE statfs
+A TRACE setsockopt
+A TRACE sendmsg
+A TRACE clock_getres
+A TRACE getresuid
+A TRACE getresgid
+A TRACE getsockname
+A TRACE recvmsg
+A TRACE clone
+A TRACE set_tid_address
+A TRACE sigaltstack
+A TRACE sysinfo
+A TRACE epoll_create
+A TRACE getcwd
+A TRACE sched_setscheduler
+A TRACE sched_getparam
+A TRACE sched_getscheduler
+A TRACE vfork
+A TRACE getpeername
+A TRACE getsockopt
+A TRACE rt_sigprocmask
+A TRACE uname
+A TRACE arch_prctl
+A TRACE exit_group
+A TRACE wait4
+A TRACE getrandom
+A TRACE dup2
+A TRACE dup
+A TRACE prlimit64
+A TRACE set_robust_list
+A TRACE mmap
+A TRACE mkdir
+A TRACE exit
+A TRACE madvise
+A TRACE sigreturn
+A TRACE mremap
+A TRACE pipe
+A TRACE sendmmsg
+A TRACE bind
+A TRACE chdir
+A TRACE getpgrp
+A TRACE getppid
+A TRACE rt_sigreturn
+
+0 TRACE open RDI_PTR
+1 TEST_ARGS open {
+    RDI_PTR:dirname_glob|/opt/rekall
+    RDI_PTR:dirname_glob|/opt/kernels
+    RDI_PTR:dirname_glob|/opt/furnace
+    RDI_PTR:dirname_glob|/home
+    RDI_PTR:dirname_glob|///home/furnace
+    RDI_PTR:dirname_glob|/usr/lib64/python3.6
+    RDI_PTR:dirname|/
+    RDI_PTR:dirname|/proc
+    RDI_PTR:dirname|/proc/self
+    RDI_PTR:dirname|/dev
+    RDI_PTR:dirname|/sys/devices/system/cpu
+    RDI_PTR:dirname|/etc
+    RDI_PTR:dirname|/etc/crypto-policies/back-ends
+    RDI_PTR:dirname|/lib64
+    RDI_PTR:dirname|/lib64/tls
+    RDI_PTR:dirname|/lib64/tls/x86_64
+    RDI_PTR:dirname|/lib64/x86_64
+    RDI_PTR:dirname|/usr/lib/locale
+    RDI_PTR:dirname|/opt/rekall/lib64
+    RDI_PTR:dirname_glob|/opt/rekall/lib64/python2.7
+    RDI_PTR:dirname|/opt/rekall/lib
+    RDI_PTR:dirname_glob|/opt/rekall/lib/python2.7
+    RDI_PTR:dirname|/usr/lib64
+    RDI_PTR:dirname|/usr/lib64/gconv
+    RDI_PTR:dirname|/usr/lib64/x86_64
+    RDI_PTR:dirname|/usr/lib64/tls
+    RDI_PTR:dirname|/usr/lib64/tls/x86_64
+    RDI_PTR:dirname|/usr/share/terminfo/x
+    RDI_PTR:dirname_glob|/usr/lib64/python2.7
+    RDI_PTR:dirname|/usr/lib
+    RDI_PTR:dirname_glob|/usr/lib/python2.7
+    RDI_PTR:basename|.rekallrc
+}
+
+1 TRACE stat
+1 TRACE socket
+1 TRACE sigaltstack
+1 TRACE rt_sigaction
+#1 TRACE open
+1 TRACE munmap
+1 TRACE mprotect
+1 TRACE madvise
+1 TRACE lseek
+1 TRACE getsockopt
+1 TRACE getpeername
+1 TRACE futex
+1 TRACE fstat
+1 TRACE fcntl
+1 TRACE exit_group
+1 TRACE exit
+1 TRACE connect
+1 TRACE close
+1 TRACE mmap
+1 TRACE brk
+
+1 TRACE getdents64
+1 TRACE execve
+1 TRACE pipe2
+1 TRACE pipe
+#1 TRACE ioctl
+1 TRACE clone
+1 TRACE set_robust_list
+1 TRACE dup2
+1 TRACE dup
+1 TRACE wait4
+1 TRACE lstat
+1 TRACE mremap
+1 TRACE access
+1 TRACE rt_sigprocmask
+1 TRACE readlink
+1 TRACE getegid
+1 TRACE getgid
+1 TRACE getuid
+1 TRACE geteuid
+1 TRACE sendmmsg
+1 TRACE uname
+1 TRACE arch_prctl
+1 TRACE statfs
+1 TRACE bind
+1 TRACE sysinfo
+1 TRACE chdir
+1 TRACE unlink
+1 TRACE prlimit64
+1 TRACE getpgrp
+1 TRACE getppid
+1 TRACE rt_sigreturn
+1 TRACE getcwd
+1 TRACE socketpair
+1 TRACE mkdir
+1 TRACE sched_getparam
+1 TRACE sched_getscheduler
+1 TRACE sched_setscheduler
+1 TRACE epoll_create
+1 TRACE set_tid_address
+1 TRACE getrandom
+
+
+A TEST_ARGS ioctl {
+    RSI_INT:module_termios.TCGETS
+    RSI_INT:module_termios.FIOCLEX
+    RSI_INT:module_termios.TIOCGWINSZ
+    RSI_INT:module_termios.TIOCGPGRP
+    RSI_INT:21524
+}
+
+A TEST_ARGS socket {
+    RDI_INT:module_socket.AF_UNIX
+    RDI_INT:module_socket.AF_INET6
+    RDI_INT:module_socket.AF_INET
+}

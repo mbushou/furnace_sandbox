@@ -1,0 +1,26 @@
+*** drakvuf/src/plugins/plugins.cpp	2018-07-02 16:16:53.747729492 +0000
+--- plugins.cpp.w_furnace	2018-07-02 17:14:59.966904489 +0000
+***************
+*** 116,121 ****
+--- 116,122 ----
+  #include "socketmon/socketmon.h"
+  #include "regmon/regmon.h"
+  #include "procmon/procmon.h"
++ #include "furnace/furnace.h"
+  
+  drakvuf_plugins::drakvuf_plugins(const drakvuf_t drakvuf, output_format_t output, os_t os)
+  {
+***************
+*** 207,212 ****
+--- 208,218 ----
+                      this->plugins[plugin_id] = new procmon(this->drakvuf, config, this->output);
+                      break;
+  #endif
++ #ifdef ENABLE_PLUGIN_FURNACE
++                 case PLUGIN_FURNACE:
++                     this->plugins[plugin_id] = new furnace(this->drakvuf, config, this->output);
++                     break;
++ #endif
+                  default:
+                      break;
+              }

@@ -1,0 +1,103 @@
+ALLOW poll
+ALLOW getpid
+ALLOW write
+ALLOW epoll_ctl
+ALLOW recvfrom
+ALLOW epoll_wait
+ALLOW sendto
+ALLOW kill
+ALLOW read
+ALLOW ioctl
+ALLOW mmap
+
+# init_trace = {'open': {'RDI_PTR': ['/opt/...']}, ...}
+A TRACE execve RDI_PTR
+A TRACE stat RDI_PTR
+A TRACE connect RDI_INT
+A TRACE socket RDI_INT
+
+A TRACE close
+A TRACE fstat
+A TRACE openat
+A TRACE lseek
+A TRACE rt_sigaction
+A TRACE mprotect
+A TRACE getdents
+A TRACE brk
+A TRACE access
+A TRACE fcntl
+#A TRACE ioctl
+A TRACE futex
+A TRACE munmap
+A TRACE unlink
+A TRACE pipe
+A TRACE getegid
+A TRACE getgid
+A TRACE getuid
+A TRACE geteuid
+A TRACE statfs
+A TRACE clock_getres
+A TRACE getresuid
+A TRACE getresgid
+A TRACE getsockname
+A TRACE clone
+A TRACE set_tid_address
+A TRACE sigaltstack
+A TRACE epoll_create
+A TRACE sched_setscheduler
+A TRACE sched_getparam
+A TRACE sched_getscheduler
+A TRACE getpeername
+A TRACE getsockopt
+A TRACE rt_sigprocmask
+A TRACE arch_prctl
+A TRACE exit_group
+A TRACE prlimit64
+A TRACE set_robust_list
+A TRACE exit
+A TRACE madvise
+A TRACE sigreturn
+A TRACE bind
+A TRACE chmod
+A TRACE eventfd2
+A TRACE getsockname
+A TRACE listen
+A TRACE mremap
+A TRACE sched_getaffinity
+
+# post_init_test = {'open': {'RDI_PTR': ['/opt/...']}, ...}
+0 TRACE open RDI_PTR
+1 TEST_ARGS open {
+    RDI_PTR:dirname|/opt/furnace/frontend/apps
+    RDI_PTR:dirname|/opt/furnace/frontend/apps/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6/lib-dynload
+    RDI_PTR:dirname|/usr/lib64/python3.6/json
+    RDI_PTR:dirname|/usr/lib64/python3.6/json/__pycache__
+    RDI_PTR:dirname|/usr/lib64/python3.6
+}
+
+1 TRACE stat
+1 TRACE socket
+1 TRACE rt_sigaction
+#1 TRACE open
+1 TRACE munmap
+1 TRACE mprotect
+1 TRACE madvise
+1 TRACE lseek
+1 TRACE getsockopt
+1 TRACE getpeername
+1 TRACE futex
+1 TRACE fstat
+1 TRACE fcntl
+1 TRACE exit_group
+1 TRACE exit
+1 TRACE close
+1 TRACE brk
+1 TRACE unlink
+1 TRACE accept
+1 TRACE rt_sigprocmask
+
+A TEST_ARGS socket {
+    RDI_INT:module_socket.AF_UNIX
+}

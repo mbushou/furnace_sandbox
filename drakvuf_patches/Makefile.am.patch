@@ -1,0 +1,16 @@
+*** drakvuf/src/plugins/Makefile.am	2018-07-02 16:16:53.732728087 +0000
+--- Makefile.am.w_furnace	2018-07-02 17:16:46.982601330 +0000
+***************
+*** 154,159 ****
+--- 154,164 ----
+  sources += procmon/procmon.cpp
+  endif
+  
++ if PLUGIN_FURNACE
++ sources += furnace/furnace.cpp
++ sources += furnace/vmi.pb.cc
++ endif
++ 
+  ###############################################################################
+  sources += plugins.cpp plugins.h
+  

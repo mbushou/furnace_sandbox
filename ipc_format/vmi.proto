@@ -1,0 +1,947 @@
+// -------------------------
+// Furnace (c) 2017-2018 Micah Bushouse
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// -------------------------
+syntax = "proto2";
+
+package FurnaceProto;
+
+message VMIMessage {
+  enum Type {
+    EVENT                = 1;
+    EVENT_CLEAR          = 2;
+    EVENT_CLEAR_RET      = 3;
+    EVENT_REGISTER       = 4;
+    EVENT_REGISTER_RET   = 5;
+    EVENTS_START         = 6;
+    EVENTS_START_RET     = 7;
+    EVENTS_STOP          = 8;
+    EVENTS_STOP_RET      = 9;
+    GET_ACCESS_MODE      = 10;
+    GET_ACCESS_MODE_RET  = 11;
+    GET_MEMSIZE          = 12;
+    GET_MEMSIZE_RET      = 13;
+    GET_NAME             = 14;
+    GET_NAME_RET         = 15;
+    GET_OFFSET           = 16;
+    GET_OFFSET_RET       = 17;
+    GET_OSTYPE           = 18;
+    GET_OSTYPE_RET       = 19;
+    GET_PAGE_MODE        = 20;
+    GET_PAGE_MODE_RET    = 21;
+    GET_VCPUREG          = 22;
+    GET_VCPUREG_RET      = 23;
+    GET_VMID             = 24;
+    GET_VMID_RET         = 25;
+    GET_WINVER           = 26;
+    GET_WINVER_RET       = 27;
+    GET_WINVER_STR       = 28;
+    GET_WINVER_STR_RET   = 29;
+    LOOKUP_STRUCTURE     = 30;
+    LOOKUP_STRUCTURE_RET = 31;
+    LOOKUP_SYMBOL        = 32;
+    LOOKUP_SYMBOL_RET    = 33;
+    PAUSE_VM             = 34;
+    PAUSE_VM_RET         = 35;
+    READ_16_KSYM         = 36;
+    READ_16_KSYM_RET     = 37;
+    READ_16_PA           = 38;
+    READ_16_PA_RET       = 39;
+    READ_16_VA           = 40;
+    READ_16_VA_RET       = 41;
+    READ_32_KSYM         = 42;
+    READ_32_KSYM_RET     = 43;
+    READ_32_PA           = 44;
+    READ_32_PA_RET       = 45;
+    READ_32_VA           = 46;
+    READ_32_VA_RET       = 47;
+    READ_64_KSYM         = 48;
+    READ_64_KSYM_RET     = 49;
+    READ_64_PA           = 50;
+    READ_64_PA_RET       = 51;
+    READ_64_VA           = 52;
+    READ_64_VA_RET       = 53;
+    READ_8_KSYM          = 54;
+    READ_8_KSYM_RET      = 55;
+    READ_8_PA            = 56;
+    READ_8_PA_RET        = 57;
+    READ_8_VA            = 58;
+    READ_8_VA_RET        = 59;
+    READ_ADDR_KSYM       = 60;
+    READ_ADDR_KSYM_RET   = 61;
+    READ_ADDR_PA         = 62;
+    READ_ADDR_PA_RET     = 63;
+    READ_ADDR_VA         = 64;
+    READ_ADDR_VA_RET     = 65;
+    READ_KSYM            = 66;
+    READ_KSYM_RET        = 67;
+    READ_PA              = 68;
+    READ_PA_RET          = 69;
+    READ_STR_KSYM        = 70;
+    READ_STR_KSYM_RET    = 71;
+    READ_STR_PA          = 72;
+    READ_STR_PA_RET      = 73;
+    READ_STR_VA          = 74;
+    READ_STR_VA_RET      = 75;
+    READ_VA              = 76;
+    READ_VA_RET          = 77;
+    RESUME_VM            = 78;
+    RESUME_VM_RET        = 79;
+    STATUS               = 80;
+    TRANSLATE_KSYM2V     = 81;
+    TRANSLATE_KSYM2V_RET = 82;
+    TRANSLATE_KV2P       = 83;
+    TRANSLATE_KV2P_RET   = 84;
+    TRANSLATE_UV2P       = 85;
+    TRANSLATE_UV2P_RET   = 86;
+    WRITE_16_KSYM        = 87;
+    WRITE_16_KSYM_RET    = 88;
+    WRITE_16_PA          = 89;
+    WRITE_16_PA_RET      = 90;
+    WRITE_16_VA          = 91;
+    WRITE_16_VA_RET      = 92;
+    WRITE_32_KSYM        = 93;
+    WRITE_32_KSYM_RET    = 94;
+    WRITE_32_PA          = 95;
+    WRITE_32_PA_RET      = 96;
+    WRITE_32_VA          = 97;
+    WRITE_32_VA_RET      = 98;
+    WRITE_64_KSYM        = 99;
+    WRITE_64_KSYM_RET    = 100;
+    WRITE_64_PA          = 101;
+    WRITE_64_PA_RET      = 102;
+    WRITE_64_VA          = 103;
+    WRITE_64_VA_RET      = 104;
+    WRITE_8_KSYM         = 105;
+    WRITE_8_KSYM_RET     = 106;
+    WRITE_8_PA           = 107;
+    WRITE_8_PA_RET       = 108;
+    WRITE_8_VA           = 109;
+    WRITE_8_VA_RET       = 110;
+    WRITE_KSYM           = 111;
+    WRITE_KSYM_RET       = 112;
+    WRITE_PA             = 113;
+    WRITE_PA_RET         = 114;
+    WRITE_VA             = 115;
+    WRITE_VA_RET         = 116;
+    PROCESS_LIST         = 117;
+    PROCESS_LIST_RET     = 118;
+    START_SYSCALL        = 119;
+    START_SYSCALL_RET    = 120;
+    STOP_SYSCALL         = 121;
+    STOP_SYSCALL_RET     = 122;
+    /*
+    START_VMIFS          = 123;
+    START_VMIFS_RET      = 124;
+    STOP_VMIFS           = 125;
+    STOP_VMIFS_RET       = 126;
+    */
+  }
+  optional Event                event                = 1;
+  repeated Event_clear          event_clear          = 2;
+  repeated Event_clear_ret      event_clear_ret      = 3;
+  repeated Event_register       event_register       = 4;
+  repeated Event_register_ret   event_register_ret   = 5;
+  optional Events_start         events_start         = 6;
+  optional Events_start_ret     events_start_ret     = 7;
+  optional Events_stop          events_stop          = 8;
+  optional Events_stop_ret      events_stop_ret      = 9;
+  optional Get_access_mode      get_access_mode      = 10;
+  optional Get_access_mode_ret  get_access_mode_ret  = 11;
+  optional Get_memsize          get_memsize          = 12;
+  optional Get_memsize_ret      get_memsize_ret      = 13;
+  optional Get_name             get_name             = 14;
+  optional Get_name_ret         get_name_ret         = 15;
+  repeated Get_offset           get_offset           = 16;
+  repeated Get_offset_ret       get_offset_ret       = 17;
+  optional Get_ostype           get_ostype           = 18;
+  optional Get_ostype_ret       get_ostype_ret       = 19;
+  optional Get_page_mode        get_page_mode        = 20;
+  optional Get_page_mode_ret    get_page_mode_ret    = 21;
+  repeated Get_vcpureg          get_vcpureg          = 22;
+  repeated Get_vcpureg_ret      get_vcpureg_ret      = 23;
+  optional Get_vmid             get_vmid             = 24;
+  optional Get_vmid_ret         get_vmid_ret         = 25;
+  optional Get_winver           get_winver           = 26;
+  optional Get_winver_ret       get_winver_ret       = 27;
+  optional Get_winver_str       get_winver_str       = 28;
+  optional Get_winver_str_ret   get_winver_str_ret   = 29;
+  repeated Lookup_structure     lookup_structure     = 30;
+  repeated Lookup_structure_ret lookup_structure_ret = 31;
+  repeated Lookup_symbol        lookup_symbol        = 32;
+  repeated Lookup_symbol_ret    lookup_symbol_ret    = 33;
+  repeated Pause_vm             pause_vm             = 34;
+  repeated Pause_vm_ret         pause_vm_ret         = 35;
+  repeated Read_16_ksym         read_16_ksym         = 36;
+  repeated Read_16_ksym_ret     read_16_ksym_ret     = 37;
+  repeated Read_16_pa           read_16_pa           = 38;
+  repeated Read_16_pa_ret       read_16_pa_ret       = 39;
+  repeated Read_16_va           read_16_va           = 40;
+  repeated Read_16_va_ret       read_16_va_ret       = 41;
+  repeated Read_32_ksym         read_32_ksym         = 42;
+  repeated Read_32_ksym_ret     read_32_ksym_ret     = 43;
+  repeated Read_32_pa           read_32_pa           = 44;
+  repeated Read_32_pa_ret       read_32_pa_ret       = 45;
+  repeated Read_32_va           read_32_va           = 46;
+  repeated Read_32_va_ret       read_32_va_ret       = 47;
+  repeated Read_64_ksym         read_64_ksym         = 48;
+  repeated Read_64_ksym_ret     read_64_ksym_ret     = 49;
+  repeated Read_64_pa           read_64_pa           = 50;
+  repeated Read_64_pa_ret       read_64_pa_ret       = 51;
+  repeated Read_64_va           read_64_va           = 52;
+  repeated Read_64_va_ret       read_64_va_ret       = 53;
+  repeated Read_8_ksym          read_8_ksym          = 54;
+  repeated Read_8_ksym_ret      read_8_ksym_ret      = 55;
+  repeated Read_8_pa            read_8_pa            = 56;
+  repeated Read_8_pa_ret        read_8_pa_ret        = 57;
+  repeated Read_8_va            read_8_va            = 58;
+  repeated Read_8_va_ret        read_8_va_ret        = 59;
+  repeated Read_addr_ksym       read_addr_ksym       = 60;
+  repeated Read_addr_ksym_ret   read_addr_ksym_ret   = 61;
+  repeated Read_addr_pa         read_addr_pa         = 62;
+  repeated Read_addr_pa_ret     read_addr_pa_ret     = 63;
+  repeated Read_addr_va         read_addr_va         = 64;
+  repeated Read_addr_va_ret     read_addr_va_ret     = 65;
+  repeated Read_ksym            read_ksym            = 66;
+  repeated Read_ksym_ret        read_ksym_ret        = 67;
+  repeated Read_pa              read_pa              = 68;
+  repeated Read_pa_ret          read_pa_ret          = 69;
+  repeated Read_str_ksym        read_str_ksym        = 70;
+  repeated Read_str_ksym_ret    read_str_ksym_ret    = 71;
+  repeated Read_str_pa          read_str_pa          = 72;
+  repeated Read_str_pa_ret      read_str_pa_ret      = 73;
+  repeated Read_str_va          read_str_va          = 74;
+  repeated Read_str_va_ret      read_str_va_ret      = 75;
+  repeated Read_va              read_va              = 76;
+  repeated Read_va_ret          read_va_ret          = 77;
+  repeated Resume_vm            resume_vm            = 78;
+  repeated Resume_vm_ret        resume_vm_ret        = 79;
+  optional Status               status               = 80;
+  repeated Translate_ksym2v     translate_ksym2v     = 81;
+  repeated Translate_ksym2v_ret translate_ksym2v_ret = 82;
+  repeated Translate_kv2p       translate_kv2p       = 83;
+  repeated Translate_kv2p_ret   translate_kv2p_ret   = 84;
+  repeated Translate_uv2p       translate_uv2p       = 85;
+  repeated Translate_uv2p_ret   translate_uv2p_ret   = 86;
+  repeated Write_16_ksym        write_16_ksym        = 87;
+  repeated Write_16_ksym_ret    write_16_ksym_ret    = 88;
+  repeated Write_16_pa          write_16_pa          = 89;
+  repeated Write_16_pa_ret      write_16_pa_ret      = 90;
+  repeated Write_16_va          write_16_va          = 91;
+  repeated Write_16_va_ret      write_16_va_ret      = 92;
+  repeated Write_32_ksym        write_32_ksym        = 93;
+  repeated Write_32_ksym_ret    write_32_ksym_ret    = 94;
+  repeated Write_32_pa          write_32_pa          = 95;
+  repeated Write_32_pa_ret      write_32_pa_ret      = 96;
+  repeated Write_32_va          write_32_va          = 97;
+  repeated Write_32_va_ret      write_32_va_ret      = 98;
+  repeated Write_64_ksym        write_64_ksym        = 99;
+  repeated Write_64_ksym_ret    write_64_ksym_ret    = 100;
+  repeated Write_64_pa          write_64_pa          = 101;
+  repeated Write_64_pa_ret      write_64_pa_ret      = 102;
+  repeated Write_64_va          write_64_va          = 103;
+  repeated Write_64_va_ret      write_64_va_ret      = 104;
+  repeated Write_8_ksym         write_8_ksym         = 105;
+  repeated Write_8_ksym_ret     write_8_ksym_ret     = 106;
+  repeated Write_8_pa           write_8_pa           = 107;
+  repeated Write_8_pa_ret       write_8_pa_ret       = 108;
+  repeated Write_8_va           write_8_va           = 109;
+  repeated Write_8_va_ret       write_8_va_ret       = 110;
+  repeated Write_ksym           write_ksym           = 111;
+  repeated Write_ksym_ret       write_ksym_ret       = 112;
+  repeated Write_pa             write_pa             = 113;
+  repeated Write_pa_ret         write_pa_ret         = 114;
+  repeated Write_va             write_va             = 115;
+  repeated Write_va_ret         write_va_ret         = 116;
+
+  repeated Process_list         process_list         = 117;
+  repeated Process_list_ret     process_list_ret     = 118;
+  optional Start_syscall        start_syscall        = 119;
+  optional Start_syscall_ret    start_syscall_ret    = 120;
+  optional Stop_syscall         stop_syscall         = 121;
+  optional Stop_syscall_ret     stop_syscall_ret     = 122;
+  /*
+  optional Start_vmifs          start_vmifs          = 123;
+  optional Start_vmifs_ret      start_vmifs_ret      = 124;
+  optional Stop_vmifs           stop_vmifs           = 125;
+  optional Stop_vmifs_ret       stop_vmifs_ret       = 126;
+  */
+
+  optional bool                 error                = 123;  // Was there an error in Furnace?
+  optional int32                error_num            = 124;  // Message type
+  optional int32                error_loc            = 125;  // Message field index
+
+  // must always be last!
+  repeated Type                 type                 = 126;
+
+}
+
+// -----------------------
+enum RegType {
+  F_CR3 = 1;
+}
+enum EventType {
+  F_REG = 1;
+  F_EPT = 2;
+  F_INT = 3;
+}
+enum SyncState {
+  F_SYNC = 1;
+  F_ASYNC = 2;
+}
+
+message Start_syscall {
+  optional SyncState sync_state = 1;
+}
+message Start_syscall_ret {
+  optional int32 status = 1;
+  optional uint64 identifier = 2;
+}
+
+message Stop_syscall {
+}
+message Stop_syscall_ret {
+  optional int32 status = 1;
+}
+
+/*
+// This turned out to be a bad idea, but searching through vmifs
+// will reveal how new functionality can be added to furnace
+message Start_vmifs {
+}
+message Start_vmifs_ret {
+  optional int32 status = 1;
+}
+
+message Stop_vmifs {
+}
+message Stop_vmifs_ret {
+  optional int32 status = 1;
+}
+*/
+
+/*
+message Batch_error {
+  optional uint32 error_n = 1;
+  optional uint32 index = 2;
+}
+*/
+
+message Linkage {
+  enum OperatorType {
+    F_ADD = 1;
+    F_SUB = 2;
+    F_OVERWRITE = 3;
+  }
+  optional uint32 prev_msg_ix = 1;
+  optional uint32 prev_item_ix = 2;
+  optional uint32 cur_item_ix = 3;
+  optional OperatorType operator = 4;
+}
+
+message Read_8_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_16_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_32_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_64_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_8_va_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+message Read_16_va_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+message Read_32_va_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+message Read_64_va_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+message Status {
+  optional uint64 state = 1;
+}
+message Event_register {
+/*
+  enum RegType {
+    F_CR3 = 1;
+  }
+  enum EventType {
+    F_REG = 1;
+    F_EPT = 2;
+    F_INT = 3;
+  }
+  enum SyncState {
+    F_SYNC = 1;
+    F_ASYNC = 2;
+  }*/
+  optional EventType event_type = 1;
+  optional SyncState sync_state = 2;
+  optional RegType reg_value = 3;
+  optional uint64 bp_addr = 4;
+  optional int32 bp_pid = 5;
+  optional string bp_name = 6;
+}
+message Event_register_ret {
+  optional int32 status = 1;
+  optional uint64 identifier = 2;
+}
+message Event_clear {
+  optional uint64 identifier = 1;
+}
+message Event_clear_ret {
+  optional int32 status = 1;
+  optional uint64 identifier = 2;
+}
+message Events_start {
+  optional int32 status = 1;
+}
+message Events_start_ret {
+  optional int32 status = 1;
+}
+message Events_stop {
+  optional int32 status = 1;
+}
+message Events_stop_ret {
+  optional int32 status = 1;
+}
+message Event {
+  optional uint64 identifier = 1;
+  optional uint64 cr3 = 2;
+  optional bool guest_paused = 3;
+  optional uint64 rip = 4;
+  optional uint64 rbp = 5;
+  optional uint64 rsp = 6;
+  optional uint64 rdi = 7;
+  optional uint64 rsi = 8;
+  optional uint64 rdx = 9;
+  optional uint64 rax = 10;
+  optional uint32 vcpu = 11;
+  optional uint32 uid = 12;
+  optional string procname = 13;
+  optional int32 pid = 14;
+  optional int32 ppid = 15;
+}
+message Resume_vm {
+  optional int32 status = 1;
+}
+message Resume_vm_ret {
+  optional int32 status = 1;
+}
+message Pause_vm {
+  optional int32 status = 1;
+}
+message Pause_vm_ret {
+  optional int32 status = 1;
+}
+message Lookup_symbol {
+  optional string symbol_name = 1;
+}
+message Lookup_symbol_ret {
+  optional int32 status = 1;
+  optional uint64 result = 2;
+}
+message Lookup_structure {
+  optional string structure_name = 1;
+  optional string structure_key = 2;
+}
+message Lookup_structure_ret {
+  optional int32 status = 1;
+  optional uint64 result = 2;
+}
+message Read_addr_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_addr_va_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+message Read_str_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+message Read_str_va_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Translate_kv2p {
+  optional uint64 vaddr = 1;
+  optional Linkage link = 3;
+}
+
+message Translate_uv2p {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional Linkage link = 3;
+}
+
+message Translate_ksym2v {
+  optional string symbol = 1;
+}
+
+message Read_pa {
+  optional uint64 paddr = 1;
+  optional int32 count = 2;
+  optional Linkage link = 3;
+}
+
+message Read_va {
+  optional uint64 vaddr = 1;
+  optional int32 count = 2;
+  optional int32 pid = 3;
+  optional Linkage link = 4;
+}
+
+message Read_ksym {
+  optional string symbol = 1;
+  optional int32 count = 2;
+}
+
+message Read_8_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+message Read_16_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+message Read_32_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+message Read_64_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+message Read_addr_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+message Read_str_pa {
+  optional uint64 paddr = 1;
+  optional Linkage link = 3;
+}
+
+// autogen follows
+
+message Read_8_ksym {
+  optional string symbol = 1;
+}
+
+message Read_16_ksym {
+  optional string symbol = 1;
+}
+
+message Read_32_ksym {
+  optional string symbol = 1;
+}
+
+message Read_64_ksym {
+  optional string symbol = 1;
+}
+
+message Read_addr_ksym {
+  optional string symbol = 1;
+}
+
+message Read_str_ksym {
+  optional string symbol = 1;
+}
+
+message Write_pa {
+  optional uint64 paddr = 1;
+  optional int32 count = 2;
+  optional bytes buffer = 3;
+  optional Linkage link = 4;
+}
+
+message Write_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional int32 count = 3;
+  optional bytes buffer = 4;
+  optional Linkage link = 5;
+}
+
+message Write_ksym {
+  optional string symbol = 1;
+  optional int32 count = 2;
+  optional bytes buffer = 3;
+}
+
+message Write_8_pa {
+  optional uint64 paddr = 1;
+  optional int32 value = 2;
+  optional Linkage link = 3;
+}
+
+message Write_16_pa {
+  optional uint64 paddr = 1;
+  optional int32 value = 2;
+  optional Linkage link = 3;
+}
+
+message Write_32_pa {
+  optional uint64 paddr = 1;
+  optional int32 value = 2;
+  optional Linkage link = 3;
+}
+
+message Write_64_pa {
+  optional uint64 paddr = 1;
+  optional int64 value = 2;
+  optional Linkage link = 3;
+}
+
+message Write_8_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional int32 value = 3;
+  optional Linkage link = 4;
+}
+
+message Write_16_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional int32 value = 3;
+  optional Linkage link = 4;
+}
+
+message Write_32_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional int32 value = 3;
+  optional Linkage link = 4;
+}
+
+message Write_64_va {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+  optional int64 value = 3;
+  optional Linkage link = 4;
+}
+
+message Write_8_ksym {
+  optional string symbol = 1;
+  optional int32 value = 2;
+}
+
+message Write_16_ksym {
+  optional string symbol = 1;
+  optional int32 value = 2;
+}
+
+message Write_32_ksym {
+  optional string symbol = 1;
+  optional int32 value = 2;
+}
+
+message Write_64_ksym {
+  optional string symbol = 1;
+  optional int64 value = 2;
+}
+
+message Get_name {
+  optional int32 placeholder = 1;
+}
+
+message Get_vmid {
+  optional int32 placeholder = 1;
+}
+
+message Get_access_mode {
+  optional int32 placeholder = 1;
+}
+
+message Get_winver {
+  optional int32 placeholder = 1;
+}
+
+message Get_winver_str {
+  optional int32 placeholder = 1;
+}
+
+message Get_vcpureg {
+  optional uint64 vaddr = 1;
+  optional int32 pid = 2;
+}
+
+message Get_memsize {
+  optional int32 placeholder = 1;
+}
+
+message Get_offset {
+  optional string symbol = 1;
+}
+
+message Get_ostype {
+  optional int32 placeholder = 1;
+}
+
+message Get_page_mode {
+  optional int32 placeholder = 1;
+}
+
+message Process_list {
+  optional int32 placeholder = 1;
+}
+
+
+
+
+// 2nd stage autogen
+
+message Process_list_ret {
+  repeated Process process = 1;
+  optional int32 status = 2;
+}
+
+message Process {
+  optional int32 pid = 1;
+  optional string name = 2;
+  optional uint64 process_block_ptr = 3;
+}
+
+message Translate_kv2p_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Translate_uv2p_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Translate_ksym2v_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_pa_ret {
+  optional bytes result = 1;
+  optional int32 status = 2;
+  optional int64 bytes_read = 3;
+}
+
+message Read_va_ret {
+  optional bytes result = 1;
+  optional int32 status = 2;
+  optional int64 bytes_read = 3;
+}
+
+message Read_ksym_ret {
+  optional bytes result = 1;
+  optional int32 status = 2;
+  optional int64 bytes_read = 3;
+}
+
+message Read_8_pa_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_16_pa_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_32_pa_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_64_pa_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_addr_pa_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_str_pa_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Read_8_ksym_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_16_ksym_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_32_ksym_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_64_ksym_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_addr_ksym_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Read_str_ksym_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Write_pa_ret {
+  optional int64 bytes_written = 1;
+  optional int32 status = 2;
+}
+
+message Write_va_ret {
+  optional int64 bytes_written = 1;
+  optional int32 status = 2;
+}
+
+message Write_ksym_ret {
+  optional int64 bytes_written = 1;
+  optional int32 status = 2;
+}
+
+message Write_8_pa_ret {
+  optional int32 status = 1;
+}
+
+message Write_16_pa_ret {
+  optional int32 status = 1;
+}
+
+message Write_32_pa_ret {
+  optional int32 status = 1;
+}
+
+message Write_64_pa_ret {
+  optional int32 status = 1;
+}
+
+message Write_8_va_ret {
+  optional int32 status = 1;
+}
+
+message Write_16_va_ret {
+  optional int32 status = 1;
+}
+
+message Write_32_va_ret {
+  optional int32 status = 1;
+}
+
+message Write_64_va_ret {
+  optional int32 status = 1;
+}
+
+message Write_8_ksym_ret {
+  optional int32 status = 1;
+}
+
+message Write_16_ksym_ret {
+  optional int32 status = 1;
+}
+
+message Write_32_ksym_ret {
+  optional int32 status = 1;
+}
+
+message Write_64_ksym_ret {
+  optional int32 status = 1;
+}
+
+message Get_name_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Get_vmid_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_access_mode_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_winver_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_winver_str_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Get_vcpureg_ret {
+  optional uint32 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_memsize_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_offset_ret {
+  optional uint64 result = 1;
+  optional int32 status = 2;
+}
+
+message Get_ostype_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}
+
+message Get_page_mode_ret {
+  optional string result = 1;
+  optional int32 status = 2;
+}

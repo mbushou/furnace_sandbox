@@ -1,0 +1,67 @@
+// -------------------------
+// Furnace (c) 2017-2018 Micah Bushouse
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// -------------------------
+syntax = "proto2";
+
+package Furnace;
+
+message FacMessage {
+  enum Type {
+    GET        = 1;
+    SET        = 2;
+    BE_MSG     = 3;
+
+    GET_RET    = 4;
+    SET_RET    = 5;
+    BE_MSG_RET = 6;
+  }
+  repeated Type type = 1;
+
+  repeated Get get = 2;
+  repeated Set set = 3;
+  repeated Be_msg be_msg = 4;
+
+  repeated Get_ret get_ret = 5;
+  repeated Set_ret set_ret = 6;
+  repeated Be_msg_ret be_msg_ret = 7;
+}
+
+message Get {
+  optional string key = 1;
+}
+message Get_ret {
+  optional string key = 1;
+  optional string value = 2;
+  optional uint32 result = 3;
+}
+
+message Set {
+  optional string key = 1;
+  optional string value = 2;
+}
+message Set_ret {
+  optional string key = 1;
+  optional uint32 result = 2;
+}
+
+message Be_msg {
+  optional uint32 status = 1;
+  optional string value = 2;
+}
+message Be_msg_ret {
+  optional uint32 status = 1;
+  optional string value = 2;
+}

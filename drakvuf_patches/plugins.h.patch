@@ -1,0 +1,32 @@
+*** drakvuf/src/plugins/plugins.h	2018-07-02 16:16:53.748729586 +0000
+--- plugins.h.w_furnace	2018-07-02 17:26:23.992341692 +0000
+***************
+*** 147,152 ****
+--- 147,153 ----
+      PLUGIN_SOCKETMON,
+      PLUGIN_REGMON,
+      PLUGIN_PROCMON,
++     PLUGIN_FURNACE,
+      __DRAKVUF_PLUGIN_LIST_MAX
+  } drakvuf_plugin_t;
+  
+***************
+*** 164,169 ****
+--- 165,171 ----
+      [PLUGIN_SOCKETMON] = "socketmon",
+      [PLUGIN_REGMON] = "regmon",
+      [PLUGIN_PROCMON] = "procmon",
++     [PLUGIN_FURNACE] = "furnace",
+  };
+  
+  static const bool drakvuf_plugin_os_support[__DRAKVUF_PLUGIN_LIST_MAX][VMI_OS_WINDOWS+1] =
+***************
+*** 180,185 ****
+--- 182,188 ----
+      [PLUGIN_SOCKETMON]  = { [VMI_OS_WINDOWS] = 1, [VMI_OS_LINUX] = 0 },
+      [PLUGIN_REGMON]     = { [VMI_OS_WINDOWS] = 1, [VMI_OS_LINUX] = 0 },
+      [PLUGIN_PROCMON]    = { [VMI_OS_WINDOWS] = 1, [VMI_OS_LINUX] = 0 },
++     [PLUGIN_FURNACE]    = { [VMI_OS_WINDOWS] = 1, [VMI_OS_LINUX] = 1 },
+  };
+  
+  class plugin

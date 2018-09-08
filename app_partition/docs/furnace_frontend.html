@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module furnace_frontend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>furnace_frontend</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/micah/mbushou%40ncsu.edu/P_furnace_sandbox/app_partition/furnace_frontend.py">/home/micah/mbushou@ncsu.edu/P_furnace_sandbox/app_partition/furnace_frontend.py</a></font></td></tr></table>
+    <p><tt>Main&nbsp;Furnace&nbsp;app&nbsp;library.&nbsp;&nbsp;Exposes&nbsp;API&nbsp;to&nbsp;tenant&nbsp;code.&nbsp;Formats&nbsp;and&nbsp;sends&nbsp;IPC.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="google.protobuf.internal.api_implementation.html">google.protobuf.internal.api_implementation</a><br>
+<a href="batch_obj.html">batch_obj</a><br>
+<a href="collections.html">collections</a><br>
+</td><td width="25%" valign=top><a href="facilities_pb2.html">facilities_pb2</a><br>
+<a href="furnace_runtime.html">furnace_runtime</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+<a href="vmi_pb2.html">vmi_pb2</a><br>
+<a href="zmq.html">zmq</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="furnace_frontend.html#FE">FE</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FE">class <strong>FE</strong></a>(<a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Main&nbsp;Furnace&nbsp;(frontend)&nbsp;app&nbsp;class.&nbsp;&nbsp;Actions&nbsp;all&nbsp;API&nbsp;calls.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="furnace_frontend.html#FE">FE</a></dd>
+<dd><a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FE-__init__"><strong>__init__</strong></a>(self, u2, fac, vmi, debug=False)</dt><dd><tt>Constructor,&nbsp;ZMQ&nbsp;connections&nbsp;to&nbsp;the&nbsp;VMI&nbsp;and&nbsp;FAC&nbsp;partitions&nbsp;are&nbsp;built&nbsp;here.<br>
+:param&nbsp;u2:&nbsp;The&nbsp;UUID&nbsp;for&nbsp;this&nbsp;app&nbsp;instance.<br>
+:param&nbsp;fac:&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;FAC&nbsp;partition's&nbsp;ZMQ&nbsp;socket.<br>
+:param&nbsp;vmi:&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;VMI&nbsp;partition's&nbsp;ZMQ&nbsp;socket.</tt></dd></dl>
+
+<dl><dt><a name="FE-batch"><strong>batch</strong></a>(self, batcharr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Process&nbsp;a&nbsp;batch&nbsp;array.<br>
+:param&nbsp;batcharr:&nbsp;A&nbsp;two&nbsp;level&nbsp;batch&nbsp;array&nbsp;dict.&nbsp;&nbsp;See&nbsp;app_batching&nbsp;for&nbsp;example&nbsp;format.<br>
+:returns:&nbsp;A&nbsp;two-level&nbsp;result&nbsp;dict.<br>
+res['label']&nbsp;=&nbsp;{'field_foo':&nbsp;[result],&nbsp;'field_bar':&nbsp;[result]}</tt></dd></dl>
+
+<dl><dt><a name="FE-batch_new"><strong>batch_new</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Create&nbsp;a&nbsp;new&nbsp;(empty)&nbsp;batch&nbsp;object.<br>
+:returns:&nbsp;A&nbsp;batch&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="FE-batch_send"><strong>batch_send</strong></a>(self, bo)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Send&nbsp;a&nbsp;batch&nbsp;object&nbsp;to&nbsp;the&nbsp;VMI&nbsp;partition.<br>
+:returns:&nbsp;Nothing.&nbsp;&nbsp;Changes&nbsp;to&nbsp;the&nbsp;bo&nbsp;are&nbsp;updated&nbsp;by&nbsp;reference.</tt></dd></dl>
+
+<dl><dt><a name="FE-check_encoding"><strong>check_encoding</strong></a>(self, val)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Fun.&nbsp;&nbsp;Now&nbsp;with&nbsp;more&nbsp;Unicode.<br>
+:param&nbsp;val:&nbsp;Is&nbsp;this&nbsp;variable&nbsp;a&nbsp;string?<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;TypeError&nbsp;if&nbsp;val&nbsp;is&nbsp;not&nbsp;a&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="FE-event_clear"><strong>event_clear</strong></a>(self, unsafe_eid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Clear&nbsp;a&nbsp;callback&nbsp;for&nbsp;a&nbsp;certain&nbsp;event.<br>
+:param&nbsp;tid:&nbsp;Event&nbsp;ID,&nbsp;returned&nbsp;from&nbsp;event_register.<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;Exception&nbsp;for&nbsp;an&nbsp;unknown&nbsp;event.<br>
+:raises:&nbsp;Exception&nbsp;if&nbsp;the&nbsp;caller&nbsp;attempts&nbsp;to&nbsp;clear&nbsp;the&nbsp;BE&nbsp;callback.</tt></dd></dl>
+
+<dl><dt><a name="FE-event_register"><strong>event_register</strong></a>(self, edata)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Register&nbsp;a&nbsp;callback&nbsp;for&nbsp;a&nbsp;certain&nbsp;event.<br>
+:param&nbsp;edata:&nbsp;A&nbsp;dict&nbsp;containing&nbsp;registration&nbsp;info,&nbsp;including&nbsp;the&nbsp;following&nbsp;key:value&nbsp;pairs.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'event_type':&nbsp;Event&nbsp;type&nbsp;constant,&nbsp;see&nbsp;constants.py.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'callback':&nbsp;Tenant&nbsp;function&nbsp;pointer&nbsp;to&nbsp;call&nbsp;when&nbsp;matching&nbsp;event&nbsp;arrives.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'sync':&nbsp;SYNC|ASYNC&nbsp;constant,&nbsp;if&nbsp;SYNC,&nbsp;Furnace&nbsp;will&nbsp;attempt&nbsp;to&nbsp;pause&nbsp;the&nbsp;guest&nbsp;while&nbsp;the&nbsp;tenant&nbsp;app&nbsp;processes&nbsp;the&nbsp;event.&nbsp;&nbsp;If&nbsp;ASYNC,&nbsp;the&nbsp;guest&nbsp;will&nbsp;be&nbsp;resumed&nbsp;immediately,&nbsp;likely&nbsp;before&nbsp;the&nbsp;tenant&nbsp;app&nbsp;has&nbsp;seen&nbsp;the&nbsp;event.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;event_type&nbsp;==&nbsp;TIMER,&nbsp;also&nbsp;include&nbsp;these&nbsp;key:value&nbsp;pairs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'time_value':&nbsp;(float)&nbsp;call&nbsp;this&nbsp;callback&nbsp;every&nbsp;X&nbsp;seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;event_type&nbsp;==&nbsp;REG,&nbsp;also&nbsp;include&nbsp;these&nbsp;key:value&nbsp;pairs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'reg_type':&nbsp;Register&nbsp;type&nbsp;constant&nbsp;(e.g.,&nbsp;.fe.CR3),&nbsp;see&nbsp;constants.py.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;event_type&nbsp;==&nbsp;BP,&nbsp;also&nbsp;include&nbsp;these&nbsp;key:value&nbsp;pairs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'bp_pid':&nbsp;(int)&nbsp;The&nbsp;pid&nbsp;of&nbsp;the&nbsp;address&nbsp;space&nbsp;to&nbsp;insturment.&nbsp;&nbsp;0&nbsp;is&nbsp;kernel.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'bp_addr':&nbsp;(int)&nbsp;The&nbsp;address&nbsp;itself.<br>
+:returns:&nbsp;event&nbsp;ID.&nbsp;&nbsp;Can&nbsp;be&nbsp;later&nbsp;used&nbsp;to&nbsp;clear&nbsp;this&nbsp;event.<br>
+:raises:&nbsp;Exception&nbsp;for&nbsp;unknown&nbsp;or&nbsp;unsupported&nbsp;event&nbsp;type.<br>
+:raises:&nbsp;Exception&nbsp;for&nbsp;unknown&nbsp;sync&nbsp;const.</tt></dd></dl>
+
+<dl><dt><a name="FE-event_register_cr3"><strong>event_register_cr3</strong></a>(self, reg_type, sync)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Performs&nbsp;event&nbsp;registration&nbsp;for&nbsp;registers.</tt></dd></dl>
+
+<dl><dt><a name="FE-event_register_int"><strong>event_register_int</strong></a>(self, bp_pid, bp_addr, sync)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Performs&nbsp;event&nbsp;registration&nbsp;for&nbsp;breakpoints.</tt></dd></dl>
+
+<dl><dt><a name="FE-events_start"><strong>events_start</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Tells&nbsp;the&nbsp;VMI&nbsp;partition&nbsp;to&nbsp;send&nbsp;events&nbsp;as&nbsp;they&nbsp;occur.<br>
+(events&nbsp;still&nbsp;need&nbsp;to&nbsp;be&nbsp;registered)</tt></dd></dl>
+
+<dl><dt><a name="FE-events_stop"><strong>events_stop</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Tells&nbsp;the&nbsp;VMI&nbsp;partition&nbsp;to&nbsp;MASK&nbsp;any&nbsp;future&nbsp;events.<br>
+These&nbsp;events&nbsp;aren't&nbsp;removed,&nbsp;they&nbsp;still&nbsp;occur,&nbsp;but&nbsp;they&nbsp;are&nbsp;not&nbsp;sent&nbsp;via&nbsp;IPC.<br>
+It&nbsp;is&nbsp;best&nbsp;to&nbsp;clear&nbsp;any&nbsp;events&nbsp;instead&nbsp;of&nbsp;using&nbsp;this&nbsp;function.</tt></dd></dl>
+
+<dl><dt><a name="FE-exit"><strong>exit</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Exit&nbsp;without&nbsp;tearing&nbsp;down.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_access_mode"><strong>get_access_mode</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_memsize"><strong>get_memsize</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_name"><strong>get_name</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_offset"><strong>get_offset</strong></a>(self, offset)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_ostype"><strong>get_ostype</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_page_mode"><strong>get_page_mode</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_status"><strong>get_status</strong></a>(self, msgtype)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;status&nbsp;of&nbsp;an&nbsp;inbound&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;String&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names).<br>
+:param&nbsp;index:&nbsp;Which&nbsp;index&nbsp;(for&nbsp;repeated&nbsp;fields)?<br>
+:returns:&nbsp;status</tt></dd></dl>
+
+<dl><dt><a name="FE-get_status_result"><strong>get_status_result</strong></a>(self, msgtype)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;result&nbsp;and&nbsp;status&nbsp;of&nbsp;an&nbsp;inbound&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;String&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names).<br>
+:returns:&nbsp;Tuple&nbsp;of&nbsp;(status,&nbsp;result).</tt></dd></dl>
+
+<dl><dt><a name="FE-get_vcpureg"><strong>get_vcpureg</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_vmid"><strong>get_vmid</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_winver"><strong>get_winver</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-get_winver_str"><strong>get_winver_str</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-io_get"><strong>io_get</strong></a>(self, key)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Gets&nbsp;previously&nbsp;stored&nbsp;data&nbsp;from&nbsp;the&nbsp;FAC&nbsp;partition.<br>
+:param&nbsp;key:&nbsp;Label&nbsp;for&nbsp;previously&nbsp;stored&nbsp;data.<br>
+:returns:&nbsp;The&nbsp;data.<br>
+:raises&nbsp;Exception:&nbsp;If&nbsp;the&nbsp;FAC&nbsp;partition&nbsp;failed&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;data.</tt></dd></dl>
+
+<dl><dt><a name="FE-io_set"><strong>io_set</strong></a>(self, key, val)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Sends&nbsp;data&nbsp;to&nbsp;the&nbsp;FAC&nbsp;partition&nbsp;to&nbsp;be&nbsp;stored&nbsp;to&nbsp;disk.<br>
+:param&nbsp;key:&nbsp;Label&nbsp;for&nbsp;this&nbsp;data.&nbsp;&nbsp;Used&nbsp;for&nbsp;accessing&nbsp;the&nbsp;data&nbsp;later.<br>
+:param&nbsp;val:&nbsp;The&nbsp;data.<br>
+:returns:&nbsp;The&nbsp;key&nbsp;label&nbsp;on&nbsp;success.<br>
+:raises&nbsp;Exception:&nbsp;If&nbsp;the&nbsp;FAC&nbsp;partition&nbsp;failed&nbsp;to&nbsp;store&nbsp;the&nbsp;data.</tt></dd></dl>
+
+<dl><dt><a name="FE-log"><strong>log</strong></a>(self, data)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Write&nbsp;to&nbsp;underlying&nbsp;logging&nbsp;mechanism.<br>
+:param&nbsp;data:&nbsp;The&nbsp;data.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-lookup_structure"><strong>lookup_structure</strong></a>(self, structure_name, structure_key)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;DRAKVUF&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-lookup_symbol"><strong>lookup_symbol</strong></a>(self, symbol_name)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;DRAKVUF&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-loop"><strong>loop</strong></a>(self)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Main&nbsp;event&nbsp;loop.&nbsp;&nbsp;Polls&nbsp;(with&nbsp;timeout)&nbsp;on&nbsp;ZMQ&nbsp;sockets&nbsp;waiting&nbsp;for&nbsp;data&nbsp;from&nbsp;the&nbsp;VMI&nbsp;or&nbsp;FAC&nbsp;partitions.&nbsp;&nbsp;Calls&nbsp;tenant-registered&nbsp;callbacks.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-mget_status"><strong>mget_status</strong></a>(self, msgtype, index)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;status&nbsp;of&nbsp;an&nbsp;inbound&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;String&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names).<br>
+:param&nbsp;index:&nbsp;Which&nbsp;index&nbsp;(for&nbsp;repeated&nbsp;fields)?<br>
+:returns:&nbsp;status</tt></dd></dl>
+
+<dl><dt><a name="FE-mget_status_result"><strong>mget_status_result</strong></a>(self, msgtype, index)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;retrieve&nbsp;the&nbsp;result&nbsp;and&nbsp;status&nbsp;of&nbsp;an&nbsp;inbound&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;String&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names).<br>
+:param&nbsp;index:&nbsp;Which&nbsp;index&nbsp;(for&nbsp;repeated&nbsp;fields)?<br>
+:returns:&nbsp;Tuple&nbsp;of&nbsp;(status,&nbsp;result).</tt></dd></dl>
+
+<dl><dt><a name="FE-module_register"><strong>module_register</strong></a>(self)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Glues&nbsp;together&nbsp;namespaces.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-notify"><strong>notify</strong></a>(self, msg)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Send&nbsp;an&nbsp;async&nbsp;message&nbsp;to&nbsp;the&nbsp;backend.&nbsp;&nbsp;Immediately&nbsp;returns&nbsp;regardless&nbsp;of&nbsp;delivery.<br>
+:param&nbsp;msg:&nbsp;String&nbsp;to&nbsp;send.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-pause_vm"><strong>pause_vm</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-post_app_init"><strong>post_app_init</strong></a>(self, app)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Called&nbsp;by&nbsp;femain&nbsp;after&nbsp;the&nbsp;tenant&nbsp;app's&nbsp;constructor&nbsp;runs.&nbsp;&nbsp;Checks&nbsp;to&nbsp;ensure&nbsp;the&nbsp;constructor&nbsp;registered&nbsp;exactly&nbsp;one&nbsp;BE&nbsp;callback.<br>
+:param&nbsp;app:&nbsp;The&nbsp;tenant's&nbsp;app&nbsp;instance.<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;Exception&nbsp;when&nbsp;caller&nbsp;attempts&nbsp;to&nbsp;register&nbsp;2&nbsp;or&nbsp;more&nbsp;BE&nbsp;callbacks.</tt></dd></dl>
+
+<dl><dt><a name="FE-prep_batch"><strong>prep_batch</strong></a>(self, batcharr)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Builds&nbsp;protobuf&nbsp;from&nbsp;batch&nbsp;array.<br>
+:param&nbsp;batcharr:&nbsp;A&nbsp;two&nbsp;level&nbsp;batch&nbsp;array&nbsp;dict.&nbsp;&nbsp;See&nbsp;app_batching&nbsp;for&nbsp;example&nbsp;format.<br>
+:returns:&nbsp;Nothing.<br>
+&nbsp;<br>
+Dev&nbsp;notes:<br>
+--&nbsp;link&nbsp;fields&nbsp;are&nbsp;0&nbsp;indexed!<br>
+--&nbsp;link&nbsp;fields,&nbsp;0th:&nbsp;index&nbsp;of&nbsp;previous&nbsp;message<br>
+&nbsp;&nbsp;&nbsp;1st:&nbsp;index&nbsp;of&nbsp;field&nbsp;inside&nbsp;previous&nbsp;message<br>
+&nbsp;&nbsp;&nbsp;2nd:&nbsp;index&nbsp;of&nbsp;field&nbsp;inside&nbsp;current&nbsp;message<br>
+&nbsp;&nbsp;&nbsp;3rd:&nbsp;operator&nbsp;(add,&nbsp;subtract,&nbsp;overwrite)</tt></dd></dl>
+
+<dl><dt><a name="FE-process_batch_results"><strong>process_batch_results</strong></a>(self, batcharr)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Builds&nbsp;protobuf&nbsp;from&nbsp;batch&nbsp;array.<br>
+:param&nbsp;batcharr:&nbsp;A&nbsp;two&nbsp;level&nbsp;batch&nbsp;array&nbsp;dict.&nbsp;&nbsp;See&nbsp;app_batching&nbsp;for&nbsp;example&nbsp;format.<br>
+:returns:&nbsp;A&nbsp;two-level&nbsp;result&nbsp;dict.<br>
+res['label']&nbsp;=&nbsp;{'field_foo':&nbsp;[result],&nbsp;'field_bar':&nbsp;[result]}<br>
+:raises&nbsp;Exception:&nbsp;General&nbsp;protobuf&nbsp;message&nbsp;error.<br>
+:raises&nbsp;Exception:&nbsp;Specific&nbsp;protobuf&nbsp;message&nbsp;error&nbsp;(error&nbsp;field&nbsp;filled).<br>
+&nbsp;<br>
+Dev&nbsp;notes:<br>
+0.&nbsp;make&nbsp;sure&nbsp;if&nbsp;X&nbsp;messages&nbsp;go&nbsp;out,&nbsp;X&nbsp;messages&nbsp;come&nbsp;back,&nbsp;do&nbsp;error&nbsp;checking<br>
+1.&nbsp;for&nbsp;each&nbsp;returned&nbsp;type,&nbsp;in&nbsp;order:<br>
+2.&nbsp;do&nbsp;typecount&nbsp;to&nbsp;find&nbsp;ix,&nbsp;get&nbsp;its&nbsp;name,&nbsp;find&nbsp;its&nbsp;corresponding&nbsp;message&nbsp;via&nbsp;reflection,&nbsp;get&nbsp;index&nbsp;using&nbsp;typecount<br>
+3.&nbsp;extract&nbsp;its&nbsp;values&nbsp;into&nbsp;resdict<br>
+4.&nbsp;name&nbsp;this&nbsp;result&nbsp;according&nbsp;to&nbsp;its&nbsp;label</tt></dd></dl>
+
+<dl><dt><a name="FE-process_list"><strong>process_list</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Calls&nbsp;VMI&nbsp;partition's&nbsp;built-in&nbsp;process&nbsp;list&nbsp;function.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_16_ksym"><strong>read_16_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_16_pa"><strong>read_16_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_16_va"><strong>read_16_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_32_ksym"><strong>read_32_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_32_pa"><strong>read_32_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_32_va"><strong>read_32_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_64_ksym"><strong>read_64_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_64_pa"><strong>read_64_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_64_va"><strong>read_64_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_8_ksym"><strong>read_8_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_8_pa"><strong>read_8_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_8_va"><strong>read_8_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_addr_ksym"><strong>read_addr_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_addr_pa"><strong>read_addr_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_addr_va"><strong>read_addr_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_ksym"><strong>read_ksym</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_pa"><strong>read_pa</strong></a>(self, paddr, count)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_str_ksym"><strong>read_str_ksym</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_str_pa"><strong>read_str_pa</strong></a>(self, paddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_str_va"><strong>read_str_va</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-read_va"><strong>read_va</strong></a>(self, vaddr, pid, count)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-request"><strong>request</strong></a>(self, msg)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Send&nbsp;an&nbsp;sync&nbsp;message&nbsp;to&nbsp;the&nbsp;backend.&nbsp;&nbsp;Blocks&nbsp;until&nbsp;response&nbsp;is&nbsp;received.<br>
+:param&nbsp;msg:&nbsp;String&nbsp;to&nbsp;send.<br>
+:returns:&nbsp;Nothing.<br>
+:raises&nbsp;Exception:&nbsp;If&nbsp;error&nbsp;code&nbsp;was&nbsp;returned.</tt></dd></dl>
+
+<dl><dt><a name="FE-resume_vm"><strong>resume_vm</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-send_default_reply"><strong>send_default_reply</strong></a>(self)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;send&nbsp;a&nbsp;prepared&nbsp;protobuf&nbsp;(self.<strong>msg_out</strong>),&nbsp;then&nbsp;block&nbsp;until&nbsp;a&nbsp;response&nbsp;is&nbsp;returned.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-set_name"><strong>set_name</strong></a>(self, name)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+:param&nbsp;name:&nbsp;The&nbsp;app's&nbsp;name&nbsp;(must&nbsp;be&nbsp;alphanum&nbsp;and&nbsp;&lt;=16&nbsp;characters).<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;Exception&nbsp;if&nbsp;malformed.</tt></dd></dl>
+
+<dl><dt><a name="FE-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Exit&nbsp;cleanly.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="FE-start_syscall"><strong>start_syscall</strong></a>(self, callback, sync)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Start&nbsp;DRAKVUF-supported&nbsp;syscall&nbsp;tracing.<br>
+:params&nbsp;callback:&nbsp;Tenant&nbsp;function&nbsp;pointer&nbsp;to&nbsp;call&nbsp;when&nbsp;matching&nbsp;event&nbsp;arrives.<br>
+:params&nbsp;sync:&nbsp;SYNC|ASYNC&nbsp;constant,&nbsp;if&nbsp;SYNC,&nbsp;Furnace&nbsp;will&nbsp;attempt&nbsp;to&nbsp;pause&nbsp;the&nbsp;guest&nbsp;while&nbsp;the&nbsp;tenant&nbsp;app&nbsp;processes&nbsp;the&nbsp;event.&nbsp;&nbsp;If&nbsp;ASYNC,&nbsp;the&nbsp;guest&nbsp;will&nbsp;be&nbsp;resumed&nbsp;immediately,&nbsp;likely&nbsp;before&nbsp;the&nbsp;tenant&nbsp;app&nbsp;has&nbsp;seen&nbsp;the&nbsp;event.<br>
+:returns:&nbsp;event&nbsp;ID.&nbsp;&nbsp;Can&nbsp;be&nbsp;later&nbsp;used&nbsp;to&nbsp;clear&nbsp;this&nbsp;event.<br>
+:raises:&nbsp;Exception&nbsp;if&nbsp;callback&nbsp;is&nbsp;not&nbsp;callable.<br>
+:raises:&nbsp;Exception&nbsp;if&nbsp;invalid&nbsp;sync&nbsp;const&nbsp;is&nbsp;used.<br>
+:raises:&nbsp;Exception&nbsp;VMI&nbsp;partition&nbsp;was&nbsp;unable&nbsp;to&nbsp;start&nbsp;syscall&nbsp;tracing.</tt></dd></dl>
+
+<dl><dt><a name="FE-stop_syscall"><strong>stop_syscall</strong></a>(self, unsafe_eid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Stop&nbsp;syscall&nbsp;tracing.<br>
+:param&nbsp;tid:&nbsp;Event&nbsp;ID,&nbsp;returned&nbsp;from&nbsp;event_register.<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;Exception&nbsp;for&nbsp;an&nbsp;unknown&nbsp;event.</tt></dd></dl>
+
+<dl><dt><a name="FE-translate_ksym2v"><strong>translate_ksym2v</strong></a>(self, symbol)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-translate_kv2p"><strong>translate_kv2p</strong></a>(self, vaddr)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-translate_uv2p"><strong>translate_uv2p</strong></a>(self, vaddr, pid)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-vmmsg_helper"><strong>vmmsg_helper</strong></a>(self, msgtype)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;add&nbsp;another&nbsp;repeated&nbsp;field&nbsp;to&nbsp;a&nbsp;VMI&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;string&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names)<br>
+:returns:&nbsp;The&nbsp;submsg,&nbsp;ready&nbsp;to&nbsp;be&nbsp;populated.</tt></dd></dl>
+
+<dl><dt><a name="FE-vmsg_helper"><strong>vmsg_helper</strong></a>(self, msgtype)</dt><dd><tt>Internal&nbsp;use&nbsp;only.<br>
+Helper&nbsp;function&nbsp;to&nbsp;add&nbsp;a&nbsp;single&nbsp;field&nbsp;to&nbsp;a&nbsp;VMI&nbsp;protobuf.<br>
+:param&nbsp;msgtype:&nbsp;string&nbsp;matching&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;field&nbsp;(see&nbsp;.proto&nbsp;for&nbsp;valid&nbsp;field&nbsp;names)<br>
+:returns:&nbsp;The&nbsp;submsg,&nbsp;ready&nbsp;to&nbsp;be&nbsp;populated.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_16_ksym"><strong>write_16_ksym</strong></a>(self, symbol, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_16_pa"><strong>write_16_pa</strong></a>(self, paddr, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_16_va"><strong>write_16_va</strong></a>(self, vaddr, pid, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_32_ksym"><strong>write_32_ksym</strong></a>(self, symbol, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_32_pa"><strong>write_32_pa</strong></a>(self, paddr, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_32_va"><strong>write_32_va</strong></a>(self, vaddr, pid, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_64_ksym"><strong>write_64_ksym</strong></a>(self, symbol, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_64_pa"><strong>write_64_pa</strong></a>(self, paddr, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_64_va"><strong>write_64_va</strong></a>(self, vaddr, pid, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_8_ksym"><strong>write_8_ksym</strong></a>(self, symbol, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_8_pa"><strong>write_8_pa</strong></a>(self, paddr, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_8_va"><strong>write_8_va</strong></a>(self, vaddr, pid, value)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_ksym"><strong>write_ksym</strong></a>(self, symbol, buf)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_pa"><strong>write_pa</strong></a>(self, paddr, buf)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<dl><dt><a name="FE-write_va"><strong>write_va</strong></a>(self, vaddr, pid, buf)</dt><dd><tt>Supported&nbsp;API&nbsp;call.<br>
+Matches&nbsp;LibVMI&nbsp;behavior.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>:<br>
+<dl><dt><a name="FE-run"><strong>run</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="FE-signal_handler"><strong>signal_handler</strong></a>(self, rcv_signal, frame)</dt></dl>
+
+<dl><dt><a name="FE-start_logs"><strong>start_logs</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="FE-tprint"><strong>tprint</strong></a>(self, log_type, entry)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ACCEPT_OPR</strong> = {1: 'F_ADD', 2: 'F_SUB', 3: 'F_OVERWRITE'}<br>
+<strong>ACCEPT_REG</strong> = {1: 'F_CR3'}<br>
+<strong>ACCEPT_SYNC</strong> = {30: 'F_SYNC', 31: 'F_ASYNC'}<br>
+<strong>ACTIVE</strong> = 20<br>
+<strong>ASYNC</strong> = 31<br>
+<strong>BE</strong> = 7<br>
+<strong>CR3</strong> = 1<br>
+<strong>CR4</strong> = 2<br>
+<strong>FAC_IO_DIR</strong> = '/tmp/'<br>
+<strong>F_ADD</strong> = 1<br>
+<strong>F_OVERWRITE</strong> = 3<br>
+<strong>F_SUB</strong> = 2<br>
+<strong>INACTIVE</strong> = 21<br>
+<strong>INT</strong> = 4<br>
+<strong>KERNEL</strong> = 0<br>
+<strong>MAX_DISK_USAGE</strong> = 16777216<br>
+<strong>MAX_FIELD_SIZE</strong> = 11056943<br>
+<strong>MEM</strong> = 5<br>
+<strong>PUBSUB</strong> = 32<br>
+<strong>REG</strong> = 3<br>
+<strong>SYNC</strong> = 30<br>
+<strong>SYSCALL_PLUGIN</strong> = 9<br>
+<strong>TIMEOUT_FAC</strong> = 250<br>
+<strong>TIMEOUT_VMI</strong> = 250<br>
+<strong>TIMER</strong> = 6<br>
+<strong>VMI_FAILURE</strong> = 1<br>
+<strong>VMI_SUCCESS</strong> = 0</td></tr></table>
+</body></html>

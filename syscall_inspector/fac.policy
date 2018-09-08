@@ -1,0 +1,121 @@
+ALLOW poll
+ALLOW getpid
+ALLOW write
+ALLOW epoll_ctl
+ALLOW epoll_wait
+ALLOW sendto
+ALLOW kill
+ALLOW read
+ALLOW nanosleep
+
+A TRACE execve RDI_PTR
+A TRACE stat RDI_PTR
+A TRACE connect RDI_INT
+A TRACE socket RDI_INT
+
+A TRACE close
+A TRACE fstat
+A TRACE openat
+A TRACE lseek
+A TRACE rt_sigaction
+A TRACE mprotect
+A TRACE getdents
+A TRACE lstat
+A TRACE brk
+A TRACE access
+A TRACE fcntl
+A TRACE ioctl
+A TRACE futex
+A TRACE munmap
+A TRACE unlink
+A TRACE socketpair
+A TRACE pipe2
+A TRACE readlink
+A TRACE getegid
+A TRACE getgid
+A TRACE getuid
+A TRACE geteuid
+A TRACE statfs
+A TRACE setsockopt
+A TRACE sendmsg
+A TRACE clock_getres
+A TRACE getresuid
+A TRACE getresgid
+A TRACE getsockname
+A TRACE recvmsg
+A TRACE clone
+A TRACE set_tid_address
+A TRACE sigaltstack
+A TRACE sysinfo
+A TRACE epoll_create
+A TRACE getcwd
+A TRACE sched_setscheduler
+A TRACE sched_getparam
+A TRACE sched_getscheduler
+A TRACE vfork
+A TRACE getpeername
+A TRACE getsockopt
+A TRACE rt_sigprocmask
+A TRACE uname
+A TRACE arch_prctl
+A TRACE exit_group
+A TRACE wait4
+A TRACE getrandom
+A TRACE dup2
+A TRACE dup
+A TRACE prlimit64
+A TRACE set_robust_list
+A TRACE mmap
+A TRACE mkdir
+A TRACE exit
+A TRACE madvise
+A TRACE sigreturn
+
+A TRACE listen
+A TRACE bind
+A TRACE accept
+A TRACE accept4
+A TRACE send
+A TRACE recv
+A TRACE shutdown
+A TRACE recvmmsg
+A TRACE sendmmsg
+
+0 TRACE open RDI_PTR
+1 TEST_ARGS open {
+    RDI_PTR:dirname|/tmp
+    RDI_PTR:dirname|/proc/sys/vm
+    RDI_PTR:dirname|/dev
+    RDI_PTR:dirname_glob|/usr/lib64/python3.6
+    RDI_PTR:exactpath|/dev/urandom
+}
+
+1 TRACE accept
+1 TRACE socket
+#1 TRACE open
+1 TRACE munmap
+1 TRACE mprotect
+1 TRACE madvise
+1 TRACE lseek
+1 TRACE getsockopt
+1 TRACE setsockopt
+1 TRACE getpeername
+1 TRACE futex
+1 TRACE fstat
+1 TRACE fcntl
+1 TRACE exit_group
+1 TRACE exit
+1 TRACE connect
+1 TRACE close
+1 TRACE mmap
+1 TRACE brk
+1 TRACE ioctl
+
+A TEST_ARGS ioctl {
+    RSI_INT:module_termios.TCGETS
+    RSI_INT:module_termios.FIOCLEX
+}
+
+A TEST_ARGS socket {
+    RDI_INT:module_socket.AF_UNIX
+}

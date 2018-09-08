@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module facilities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>facilities</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/micah/mbushou%40ncsu.edu/P_furnace_sandbox/facilities_partition/facilities.py">/home/micah/mbushou@ncsu.edu/P_furnace_sandbox/facilities_partition/facilities.py</a></font></td></tr></table>
+    <p><tt><a href="#Facilities">Facilities</a>&nbsp;partition&nbsp;runtime.&nbsp;&nbsp;Formats&nbsp;and&nbsp;sends&nbsp;IPC&nbsp;between&nbsp;apps&nbsp;and&nbsp;backends.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="google.protobuf.internal.api_implementation.html">google.protobuf.internal.api_implementation</a><br>
+<a href="argparse.html">argparse</a><br>
+<a href="facilities_pb2.html">facilities_pb2</a><br>
+</td><td width="25%" valign=top><a href="furnace_runtime.html">furnace_runtime</a><br>
+<a href="os.html">os</a><br>
+<a href="re.html">re</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+<a href="time.html">time</a><br>
+<a href="zmq.html">zmq</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="facilities.html#Facilities">Facilities</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Facilities">class <strong>Facilities</strong></a>(<a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Main&nbsp;<a href="#Facilities">Facilities</a>&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="facilities.html#Facilities">Facilities</a></dd>
+<dd><a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Facilities-__init__"><strong>__init__</strong></a>(self, debug, u2, kp, qt, it, ip, fac)</dt><dd><tt>Constructor,&nbsp;ZMQ&nbsp;connections&nbsp;to&nbsp;the&nbsp;APP&nbsp;partition&nbsp;and&nbsp;backend&nbsp;are&nbsp;built&nbsp;here.<br>
+:param&nbsp;u2:&nbsp;The&nbsp;UUID&nbsp;for&nbsp;the&nbsp;corresponding&nbsp;app&nbsp;instance.<br>
+:param&nbsp;kp:&nbsp;The&nbsp;keypair&nbsp;to&nbsp;use,&nbsp;in&nbsp;the&nbsp;form&nbsp;{'be_key':&nbsp;'[path]',&nbsp;'app_key':&nbsp;'[path]'}<br>
+:param&nbsp;qt:&nbsp;Custom&nbsp;quotas&nbsp;dict.<br>
+:param&nbsp;ip:&nbsp;Connect&nbsp;to&nbsp;this&nbsp;proxy&nbsp;IP.<br>
+:param&nbsp;it:&nbsp;Connect&nbsp;to&nbsp;this&nbsp;proxy&nbsp;TCP&nbsp;port.<br>
+:param&nbsp;fac:&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;FAC&nbsp;partition's&nbsp;ZMQ&nbsp;socket.</tt></dd></dl>
+
+<dl><dt><a name="Facilities-be2fe_process_protobuf"><strong>be2fe_process_protobuf</strong></a>(self, raw_msg, sync)</dt><dd><tt>Processes&nbsp;messages&nbsp;sent&nbsp;by&nbsp;the&nbsp;backend.<br>
+:returns:&nbsp;Nothing&nbsp;(modifies&nbsp;class's&nbsp;protobufs).</tt></dd></dl>
+
+<dl><dt><a name="Facilities-check_encoding"><strong>check_encoding</strong></a>(self, val)</dt><dd><tt>Fun.&nbsp;&nbsp;Now&nbsp;with&nbsp;more&nbsp;Unicode.<br>
+:param&nbsp;val:&nbsp;Is&nbsp;this&nbsp;variable&nbsp;a&nbsp;string?<br>
+:returns:&nbsp;Nothing.<br>
+:raises:&nbsp;TypeError&nbsp;if&nbsp;val&nbsp;is&nbsp;not&nbsp;a&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="Facilities-fe2be_process_msg"><strong>fe2be_process_msg</strong></a>(self, m, sync)</dt><dd><tt>Processes&nbsp;messages&nbsp;sent&nbsp;by&nbsp;the&nbsp;app.&nbsp;&nbsp;All&nbsp;these&nbsp;are&nbsp;destined&nbsp;to&nbsp;the&nbsp;backend.<br>
+:returns:&nbsp;Nothing&nbsp;(modifies&nbsp;class's&nbsp;protobufs).</tt></dd></dl>
+
+<dl><dt><a name="Facilities-fe2be_process_protobuf"><strong>fe2be_process_protobuf</strong></a>(self, raw_msg, sync)</dt><dd><tt>Processes&nbsp;messages&nbsp;sent&nbsp;by&nbsp;the&nbsp;app.&nbsp;&nbsp;Some&nbsp;messages&nbsp;are&nbsp;processed&nbsp;locally&nbsp;(IO).<br>
+Others&nbsp;are&nbsp;forwarded&nbsp;to&nbsp;the&nbsp;backend.<br>
+:returns:&nbsp;Raw&nbsp;serialized&nbsp;protobuf.</tt></dd></dl>
+
+<dl><dt><a name="Facilities-get_name_ok"><strong>get_name_ok</strong></a>(self, n)</dt><dd><tt>:param&nbsp;n:&nbsp;The&nbsp;key&nbsp;(must&nbsp;be&nbsp;alphanum&nbsp;and&nbsp;&lt;=16&nbsp;characters).<br>
+:returns:&nbsp;True&nbsp;if&nbsp;in&nbsp;accordance&nbsp;with&nbsp;naming&nbsp;convention,&nbsp;False&nbsp;if&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="Facilities-loop"><strong>loop</strong></a>(self)</dt><dd><tt>Main&nbsp;event&nbsp;loop.&nbsp;&nbsp;Polls&nbsp;(with&nbsp;timeout)&nbsp;on&nbsp;ZMQ&nbsp;sockets&nbsp;waiting&nbsp;for&nbsp;data&nbsp;from&nbsp;the&nbsp;APP&nbsp;partition&nbsp;and&nbsp;backend.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<dl><dt><a name="Facilities-process_get"><strong>process_get</strong></a>(self, m)</dt><dd><tt>The&nbsp;app&nbsp;is&nbsp;asking&nbsp;for&nbsp;previously&nbsp;stored&nbsp;data.<br>
+:param&nbsp;m:&nbsp;The&nbsp;protobuf&nbsp;message&nbsp;sent&nbsp;by&nbsp;the&nbsp;app.<br>
+:returns:&nbsp;Nothing&nbsp;(modifies&nbsp;class's&nbsp;protobufs).</tt></dd></dl>
+
+<dl><dt><a name="Facilities-process_set"><strong>process_set</strong></a>(self, m)</dt><dd><tt>The&nbsp;app&nbsp;has&nbsp;requested&nbsp;we&nbsp;store&nbsp;this&nbsp;data.<br>
+:param&nbsp;m:&nbsp;The&nbsp;protobuf&nbsp;message&nbsp;sent&nbsp;by&nbsp;the&nbsp;app.<br>
+:returns:&nbsp;Nothing&nbsp;(modifies&nbsp;class's&nbsp;protobufs).</tt></dd></dl>
+
+<dl><dt><a name="Facilities-shutdown"><strong>shutdown</strong></a>(self)</dt><dd><tt>Exit&nbsp;cleanly.<br>
+:returns:&nbsp;Nothing.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>:<br>
+<dl><dt><a name="Facilities-run"><strong>run</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facilities-signal_handler"><strong>signal_handler</strong></a>(self, rcv_signal, frame)</dt></dl>
+
+<dl><dt><a name="Facilities-start_logs"><strong>start_logs</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facilities-tprint"><strong>tprint</strong></a>(self, log_type, entry)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="furnace_runtime.html#FurnaceRuntime">furnace_runtime.FurnaceRuntime</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Parses&nbsp;command&nbsp;line&nbsp;input,&nbsp;sets&nbsp;up&nbsp;env,&nbsp;then&nbsp;runs&nbsp;the&nbsp;facilities&nbsp;runtime.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ACCEPT_OPR</strong> = {1: 'F_ADD', 2: 'F_SUB', 3: 'F_OVERWRITE'}<br>
+<strong>ACCEPT_REG</strong> = {1: 'F_CR3'}<br>
+<strong>ACCEPT_SYNC</strong> = {30: 'F_SYNC', 31: 'F_ASYNC'}<br>
+<strong>ACTIVE</strong> = 20<br>
+<strong>ASYNC</strong> = 31<br>
+<strong>BE</strong> = 7<br>
+<strong>CR3</strong> = 1<br>
+<strong>CR4</strong> = 2<br>
+<strong>FAC_IO_DIR</strong> = '/tmp/'<br>
+<strong>FE</strong> = 8<br>
+<strong>F_ADD</strong> = 1<br>
+<strong>F_OVERWRITE</strong> = 3<br>
+<strong>F_SUB</strong> = 2<br>
+<strong>INACTIVE</strong> = 21<br>
+<strong>INT</strong> = 4<br>
+<strong>KERNEL</strong> = 0<br>
+<strong>MAX_DISK_USAGE</strong> = 16777216<br>
+<strong>MAX_FIELD_SIZE</strong> = 11056943<br>
+<strong>MEM</strong> = 5<br>
+<strong>PUBSUB</strong> = 32<br>
+<strong>REG</strong> = 3<br>
+<strong>SYNC</strong> = 30<br>
+<strong>SYSCALL_PLUGIN</strong> = 9<br>
+<strong>TIMEOUT_FAC</strong> = 250<br>
+<strong>TIMEOUT_VMI</strong> = 250<br>
+<strong>TIMER</strong> = 6<br>
+<strong>VMI_FAILURE</strong> = 1<br>
+<strong>VMI_SUCCESS</strong> = 0</td></tr></table>
+</body></html>
