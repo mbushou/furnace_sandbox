@@ -1,7 +1,7 @@
 Furnace Sandbox
 =======
 
-<img align="right" width=20% src="https://github.ncsu.edu/mbushou/furnace/blob/master/misc/logo_smoke_sm.png">
+<img align="right" width=20% src="https://github.com/mbushou/furnace/blob/master/misc/logo_smoke_sm.png">
 
 Introduction
 -------
@@ -9,11 +9,11 @@ The three-partition Furnace sandbox surrounds the untrusted tenant app,
 mediating its activity and providing it with APIs
 for performing VMI and communicating with its backend.
 
-For more information on the Furnace project, visit its [main repository](https://github.ncsu.edu/mbushou/furnace).
+For more information on the Furnace project, visit its [main repository](https://github.com/mbushou/furnace).
 
 Installation
 -------
-See [INSTALL.md](https://github.ncsu.edu/mbushou/furnace/blob/master/INSTALL.md) for instructions on installing Furnace in a single-hypervisor configuration.
+See [INSTALL.md](https://github.com/mbushou/furnace/blob/master/INSTALL.md) for instructions on installing Furnace in a single-hypervisor configuration.
 
 License
 -------
